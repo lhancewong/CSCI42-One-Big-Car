@@ -6,6 +6,12 @@ class MyLoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      floatingActionButton: const Icon(
+          Icons.arrow_back,
+          color: Color.fromRGBO(33, 41, 239, 1),
+        ),
+      
       body: Container(
         margin: const EdgeInsets.all(40.0),
         child: Column(
@@ -17,16 +23,15 @@ class MyLoginPage extends StatelessWidget {
               child: Text(
                 'Get Started',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                   fontSize: 40,
+                  fontFamily: 'Nunito',
                 ),
               ),
             ),
-            SizedBox(height: 25),
+            SizedBox(height: 20),
             TextField(
-              style: TextStyle(
-                fontSize:16
-              ),
+              style: TextStyle(fontSize:16),
               decoration: InputDecoration(
                 labelText: 'Username',
                 enabledBorder: UnderlineInputBorder(
@@ -40,9 +45,7 @@ class MyLoginPage extends StatelessWidget {
             SizedBox(height: 10),
             TextField(
               obscureText: true,
-              style: TextStyle(
-                fontSize:16
-              ),
+              style: TextStyle(fontSize:16),
               decoration: InputDecoration(
                 labelText: 'Password',
                 enabledBorder: UnderlineInputBorder(
@@ -57,13 +60,17 @@ class MyLoginPage extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: null,
-                child: Text('Forgot your Password?'),
+                child: Text(
+                  'Forgot your password?',
+                  style: TextStyle(fontSize:12),
+                  ),
               ),
             ),
             SizedBox(height: 10),
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll<Color>(Color.fromRGBO(33, 41, 2, 1)),
+                padding: MaterialStatePropertyAll(EdgeInsets.all(14)),
+                backgroundColor: MaterialStatePropertyAll<Color>(Color.fromRGBO(33, 41, 239, 1)),
                 foregroundColor: MaterialStatePropertyAll<Color>(Colors.white)
               ),
               onPressed: null,
@@ -77,7 +84,10 @@ class MyLoginPage extends StatelessWidget {
             ),
             TextButton(
               onPressed: null,
-              child: Text('Create a new account'),
+              child: Text(
+                'Create a new account',
+                style: TextStyle(fontSize:12),
+              ),
             )
           ]
         )
