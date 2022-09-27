@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:one_big_car/user_profile.dart';
 
 class MyLoginPage extends StatelessWidget {
   const MyLoginPage({super.key});
@@ -17,8 +18,8 @@ class MyLoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: const [
-            Align(
+          children: [
+            const Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Get Started',
@@ -29,8 +30,8 @@ class MyLoginPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            TextField(
+            const SizedBox(height: 20),
+            const TextField(
               style: TextStyle(fontSize:16),
               decoration: InputDecoration(
                 labelText: 'Username',
@@ -42,8 +43,8 @@ class MyLoginPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10),
-            TextField(
+            const SizedBox(height: 10),
+            const TextField(
               obscureText: true,
               style: TextStyle(fontSize:16),
               decoration: InputDecoration(
@@ -56,7 +57,7 @@ class MyLoginPage extends StatelessWidget {
                 ),
               ),
             ),
-            Align(
+            const Align(
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: null,
@@ -66,15 +67,17 @@ class MyLoginPage extends StatelessWidget {
                   ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(
-              style: ButtonStyle(
+              style: const ButtonStyle(
                 padding: MaterialStatePropertyAll(EdgeInsets.all(14)),
                 backgroundColor: MaterialStatePropertyAll<Color>(Color.fromRGBO(33, 41, 239, 1)),
                 foregroundColor: MaterialStatePropertyAll<Color>(Colors.white)
               ),
-              onPressed: null,
-              child: Text(
+              onPressed: () {
+                Navigator.of(context).push(_routeUserProfile());
+              },
+              child: const Text(
                 'Log in',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -82,7 +85,7 @@ class MyLoginPage extends StatelessWidget {
                 )
               ),
             ),
-            TextButton(
+            const TextButton(
               onPressed: null,
               child: Text(
                 'Create a new account',
@@ -94,4 +97,13 @@ class MyLoginPage extends StatelessWidget {
       )
     );
   }
+}
+
+Route _routeUserProfile() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => const MyUserProfile(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return child;
+    },
+  );
 }
