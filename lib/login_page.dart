@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:one_big_car/user_profile.dart';
 
-class MyLoginPage extends StatelessWidget {
-  const MyLoginPage({super.key});
+class LogIn extends StatefulWidget {
+  const LogIn({super.key});
+
+  @override
+  State<LogIn> createState() => _LogInState();
+}
+
+class _LogInState extends State<LogIn> {
+
+  TextEditingController usernameTextController = TextEditingController();
+  TextEditingController passwordTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +39,11 @@ class MyLoginPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            const TextField(
-              style: TextStyle(fontSize:16),
-              decoration: InputDecoration(
+            TextField(
+              keyboardType: TextInputType.emailAddress,
+              controller: usernameTextController,
+              style: const TextStyle(fontSize:16),
+              decoration: const InputDecoration(
                 labelText: 'Username',
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
@@ -44,10 +54,12 @@ class MyLoginPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            const TextField(
+            TextField(
               obscureText: true,
-              style: TextStyle(fontSize:16),
-              decoration: InputDecoration(
+              obscuringCharacter: "•",
+              controller: passwordTextController,
+              style: const TextStyle(fontSize:16),
+              decoration: const InputDecoration(
                 labelText: 'Password',
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
@@ -75,7 +87,10 @@ class MyLoginPage extends StatelessWidget {
                 foregroundColor: MaterialStatePropertyAll<Color>(Colors.white)
               ),
               onPressed: () {
-                Navigator.of(context).push(_routeUserProfile());
+                Navigator.pushNamed(context, '/UserProfile', arguments: <String, String> {
+                  'Username': usernameTextController.text,
+                  'Password': passwordTextController.text,
+                });
               },
               child: const Text(
                 'Log in',
@@ -97,13 +112,4 @@ class MyLoginPage extends StatelessWidget {
       )
     );
   }
-}
-
-Route _routeUserProfile() {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => const MyUserProfile(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return child;
-    },
-  );
 }
