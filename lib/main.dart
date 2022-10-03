@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:one_big_car/login_page.dart';
+import 'package:one_big_car/user_profile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,8 +15,12 @@ class MyApp extends StatelessWidget {
       title: 'One Big Car!',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        ),
-      home: const MyLoginPage(),
+      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LogIn(),
+        '/UserProfile': (context) => const UserProfile(),
+      },
     );
   }
 }
