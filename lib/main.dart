@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:one_big_car/login_page.dart';
 import 'package:one_big_car/user_profile.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
