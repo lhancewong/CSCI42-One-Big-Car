@@ -4,19 +4,20 @@ import 'package:firebase_auth/firebase_auth.dart'
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; 
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 import 'package:one_big_car/pages/login_page.dart';
 import 'package:one_big_car/pages/user_homepage.dart';
 import 'package:one_big_car/pages/user_profile.dart';
+import 'package:one_big_car/pages/landing_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(ChangeNotifierProvider(
     create: (context) => ApplicationState(),
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const MyUserHomepage(),
+        '/': (context) => const Landing(),
+        '/Homepage': (context) => const MyUserHomepage(),
         '/LogIn': ((context) {
           return SignInScreen(
             actions: [

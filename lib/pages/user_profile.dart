@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart'
+    hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
 
 const List<String> list = <String>['HEAD', 'PASSENGER'];
@@ -10,20 +12,21 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-
-  Map data = {};
   String dropdownValue = list.first;
-  String username = "";
-  String password = "";
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  String getData() {
+    final User user = auth.currentUser!;
+    return user.displayName!;
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    data = data.isNotEmpty ? data : ModalRoute.of(context)?.settings.arguments as Map;
-    username = data['Username'];
-    password = data['Password'];
-  
+
+    Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
+
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -78,7 +81,7 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  username,
+                  getData(),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     height: 1,
@@ -134,7 +137,32 @@ class _UserProfileState extends State<UserProfile> {
                       );
                     }).toList(),
                   ),
-                )
+                ),
+                const SizedBox(height: 50),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    padding: const MaterialStatePropertyAll(
+                        EdgeInsets.fromLTRB(90, 15, 90, 15)),
+                    backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
+                    foregroundColor:
+                        const MaterialStatePropertyAll<Color>(Colors.black),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(13),
+                            side: BorderSide(color: obcGrey))),
+                  ),
+                  child: const Text(
+                    "Home",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 26,
+                        fontFamily: 'Nunito',
+                        color: Color.fromRGBO(33, 41, 239, 1),
+                      )),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/Homepage');
+                  },
+                ),
               ],
             ),
           ),

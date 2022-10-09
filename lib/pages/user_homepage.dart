@@ -1,9 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:one_big_car/main.dart';
-import 'package:one_big_car/pages/authentication.dart';
 
 class MyUserHomepage extends StatefulWidget {
   const MyUserHomepage({super.key});
@@ -18,6 +15,14 @@ class MyUserHomepage extends StatefulWidget {
 ///  turn off that widget given that condition, ideally this widget should have
 ///  it. For now I wont do that.
 class _MyUserHomepageState extends State<MyUserHomepage> {
+
+   final FirebaseAuth auth = FirebaseAuth.instance;
+  
+  String getData() {
+  final User user = auth.currentUser!;
+  return user.displayName!;
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -49,12 +54,12 @@ class _MyUserHomepageState extends State<MyUserHomepage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const SizedBox(height: 20),
-                      const Text(
-                        'Welcome\nback, Lily!',
-                        style: TextStyle(
+                      Text(
+                        'Welcome\nback, ' + getData() + '!',
+                        style: const TextStyle(
                           height: 1,
                           fontWeight: FontWeight.w800,
-                          fontSize: 36,
+                          fontSize: 32,
                           fontFamily: 'Nunito',
                           color: Colors.black,
                         ),
@@ -62,7 +67,7 @@ class _MyUserHomepageState extends State<MyUserHomepage> {
                       ),
                       const SizedBox(height: 25),
                       // Set-up Ride Button
-                      /* ElevatedButton(
+                      ElevatedButton(
                         style: ButtonStyle(
                           padding: const MaterialStatePropertyAll(
                               EdgeInsets.all(40)),
@@ -78,7 +83,7 @@ class _MyUserHomepageState extends State<MyUserHomepage> {
                                       side: BorderSide(color: obcGrey))),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushNamed('/LogIn');
+                          Navigator.of(context).pushNamed('/');
                         },
                         child: const Text('Set-up ride',
                             style: TextStyle(
@@ -86,15 +91,7 @@ class _MyUserHomepageState extends State<MyUserHomepage> {
                               fontSize: 26,
                               fontFamily: 'Nunito',
                             )),
-                      ), */
-                      Consumer<ApplicationState>(
-                        builder: (context, appState, _) => AuthFunc(
-                            loggedIn: appState.loggedIn,
-                            signOut: () {
-                              FirebaseAuth.instance.signOut();
-                            }),
                       ),
-                      const SizedBox(height: 25),
                       // View Passengers Button
                       ElevatedButton(
                         style: ButtonStyle(
