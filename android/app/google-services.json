@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "706559122677",
+    "project_id": "one-big-car-d8e4e",
+    "storage_bucket": "one-big-car-d8e4e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706559122677:android:6a0fac496443d3a39fb9bc",
+        "android_client_info": {
+          "package_name": "com.example.one_big_car"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "706559122677-6dq7mhdi166qapqsavdg27pj0hdn1oeg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2121bfpMLryZLkBkM5nTY284VXxLeWsU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "706559122677-6dq7mhdi166qapqsavdg27pj0hdn1oeg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "706559122677-68htudsp8tr6nfh78t9ohlirnvi2oim4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.oneBigCar"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
