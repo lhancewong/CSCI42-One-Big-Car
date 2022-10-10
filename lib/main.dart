@@ -11,6 +11,7 @@ import 'package:one_big_car/pages/login_page.dart';
 import 'package:one_big_car/pages/user_homepage.dart';
 import 'package:one_big_car/pages/user_profile.dart';
 import 'package:one_big_car/pages/landing_page.dart';
+import 'package:one_big_car/pages/single_booking.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -92,6 +93,7 @@ class MyApp extends StatelessWidget {
           );
         }),
         '/UserProfile': (context) => const UserProfile(),
+        '/SingleBooking': (context) => const SingleBooking(),
       },
     );
   }

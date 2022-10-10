@@ -83,7 +83,7 @@ class _MyUserHomepageState extends State<MyUserHomepage> {
                                       side: BorderSide(color: obcGrey))),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushNamed('/');
+                          Navigator.of(context).pushNamed('/SingleBooking');
                         },
                         child: const Text('Set-up ride',
                             style: TextStyle(
