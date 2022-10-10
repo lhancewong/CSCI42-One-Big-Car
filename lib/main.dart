@@ -12,6 +12,7 @@ import 'package:one_big_car/pages/user_homepage.dart';
 import 'package:one_big_car/pages/user_profile.dart';
 import 'package:one_big_car/pages/landing_page.dart';
 import 'package:one_big_car/pages/single_booking.dart';
+import 'package:one_big_car/pages/ride_history.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const Landing(),
         '/Homepage': (context) => const UserHomepage(),
         '/SingleBooking': (context) => const SingleBooking(),
+        '/RideHistory': (context) => const RideHistory(),
         '/LogIn': ((context) {
           return SignInScreen(
             actions: [

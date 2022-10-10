@@ -15,12 +15,11 @@ class UserHomepage extends StatefulWidget {
 ///  turn off that widget given that condition, ideally this widget should have
 ///  it. For now I wont do that.
 class _UserHomepageState extends State<UserHomepage> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
-   final FirebaseAuth auth = FirebaseAuth.instance;
-  
   String getData() {
-  final User user = auth.currentUser!;
-  return user.displayName!;
+    final User user = auth.currentUser!;
+    return user.displayName!;
   }
 
   @override
@@ -134,7 +133,9 @@ class _UserHomepageState extends State<UserHomepage> {
                                       borderRadius: BorderRadius.circular(13),
                                       side: BorderSide(color: obcGrey))),
                         ),
-                        onPressed: null,
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/RideHistory');
+                        },
                         child: const Text('View ride history',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
