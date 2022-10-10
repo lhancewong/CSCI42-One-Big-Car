@@ -30,7 +30,7 @@ class AuthFunc extends StatelessWidget {
                       borderRadius: BorderRadius.circular(13),
                       side: BorderSide(color: obcGrey))),
             ),
-            child: Text(!loggedIn ? 'Log-in' : 'Start',
+            child: Text(!loggedIn ? 'Log-in' : 'Sign-out',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 26,
@@ -39,20 +39,20 @@ class AuthFunc extends StatelessWidget {
             onPressed: () {
               !loggedIn
                   ? Navigator.of(context).pushNamed('/LogIn')
-                  : Navigator.of(context).pushNamed('/UserProfile');
+                  : signOut();
             },
           ),
         ),
-        /* Visibility(
+        Visibility(
             visible: loggedIn,
             child: Padding(
               padding: const EdgeInsets.only(left: 24, bottom: 8),
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/profile');
+                    Navigator.of(context).pushNamed('/UserProfile');
                   },
-                  child: const Text('Profile')),
-            )) */
+                  child: const Text('Start')),
+            ))
       ],
     );
   }
