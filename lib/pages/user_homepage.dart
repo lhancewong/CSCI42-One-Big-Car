@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
 
-class MyUserHomepage extends StatefulWidget {
-  const MyUserHomepage({super.key});
+class UserHomepage extends StatefulWidget {
+  const UserHomepage({super.key});
 
   @override
-  State<MyUserHomepage> createState() => _MyUserHomepageState();
+  State<UserHomepage> createState() => _UserHomepageState();
 }
 
 /// TODO: Ideally you pass this a user variable where it can get whether the
@@ -14,7 +14,7 @@ class MyUserHomepage extends StatefulWidget {
 ///  see the "View Passengers" button, but HEADS can. So if theres a way to
 ///  turn off that widget given that condition, ideally this widget should have
 ///  it. For now I wont do that.
-class _MyUserHomepageState extends State<MyUserHomepage> {
+class _UserHomepageState extends State<UserHomepage> {
 
    final FirebaseAuth auth = FirebaseAuth.instance;
   
@@ -55,7 +55,7 @@ class _MyUserHomepageState extends State<MyUserHomepage> {
                     children: [
                       const SizedBox(height: 20),
                       Text(
-                        'Welcome\nback, ' + getData() + '!',
+                        'Welcome\nback, ${getData()}!',
                         style: const TextStyle(
                           height: 1,
                           fontWeight: FontWeight.w800,
@@ -83,7 +83,7 @@ class _MyUserHomepageState extends State<MyUserHomepage> {
                                       side: BorderSide(color: obcGrey))),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushNamed('/');
+                          Navigator.of(context).pushNamed('/SingleBooking');
                         },
                         child: const Text('Set-up ride',
                             style: TextStyle(
@@ -92,6 +92,7 @@ class _MyUserHomepageState extends State<MyUserHomepage> {
                               fontFamily: 'Nunito',
                             )),
                       ),
+                      const SizedBox(height: 25),
                       // View Passengers Button
                       ElevatedButton(
                         style: ButtonStyle(
