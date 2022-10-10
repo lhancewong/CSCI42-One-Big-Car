@@ -94,6 +94,7 @@ class MyApp extends StatelessWidget {
           );
         }),
         '/UserProfile': (context) => const UserProfile(),
+        '/SingleBooking': (context) => const SingleBooking(),
       },
     );
   }
