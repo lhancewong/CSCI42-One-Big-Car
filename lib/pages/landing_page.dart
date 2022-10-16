@@ -70,7 +70,7 @@ class _LandingState extends State<Landing> {
                 const Image(
                     image: AssetImage('assets/car.png'),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 10),
                 Consumer<ApplicationState>(
                   builder: (context, appState, _) => AuthFunc(
                     loggedIn: appState.loggedIn,
