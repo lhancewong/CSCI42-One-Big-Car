@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const Landing(),
         '/Homepage': (context) => const UserHomepage(),
+        '/UserProfile': (context) => const UserProfile(),
         '/SingleBooking': (context) => const SingleBooking(),
         '/RideHistory': (context) => const RideHistory(),
         '/LogIn': ((context) {
@@ -95,8 +96,6 @@ class MyApp extends StatelessWidget {
             ],
           );
         }),
-        '/UserProfile': (context) => const UserProfile(),
-        '/SingleBooking': (context) => const SingleBooking(),
       },
     );
   }

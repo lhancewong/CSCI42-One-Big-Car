@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 const List<String> list = <String>['HEAD', 'PASSENGER'];
 
@@ -22,10 +23,7 @@ class _RideHistoryState extends State<RideHistory> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
-    Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -50,269 +48,121 @@ class _RideHistoryState extends State<RideHistory> {
               ),
               child: Column(
                 children: [
-                  Container(
-                      width: screenWidth * 0.85,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16)),
-                        color: Colors.white,
-                      ),
-                      padding: const EdgeInsets.all(25),
-                      child: Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "April 4, 2020",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  fontFamily: 'Nunito',
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const Text(
-                                "Multi-Ride",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 24,
-                                  fontFamily: 'Nunito',
-                                  color: Colors.black,
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            width: 70,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("PAYMENT",
-                                  textAlign: TextAlign.right,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 11,
-                                    fontFamily: 'Nunito',
-                                    color: Colors.green,
-                                  )),
-                              const Text(
-                                "COMPLETED",
-                                textAlign: TextAlign.right,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 11,
-                                    fontFamily: 'Nunito',
-                                    color: Colors.green),
-                              )
-                            ],
-                          )
-                        ],
-                      )),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                      width: screenWidth * 0.85,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16)),
-                        color: Colors.white,
-                      ),
-                      padding: const EdgeInsets.all(25),
-                      child: Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "April 4, 2020",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  fontFamily: 'Nunito',
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const Text(
-                                "Single Ride",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 24,
-                                  fontFamily: 'Nunito',
-                                  color: Colors.black,
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            width: 63,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("PAYMENT",
-                                  textAlign: TextAlign.right,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 11,
-                                    fontFamily: 'Nunito',
-                                    color: Colors.red,
-                                  )),
-                              const Text(
-                                "INCOMPLETE",
-                                textAlign: TextAlign.right,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 11,
-                                    fontFamily: 'Nunito',
-                                    color: Colors.red),
-                              )
-                            ],
-                          )
-                        ],
-                      )),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                      width: screenWidth * 0.85,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16)),
-                        color: Colors.white,
-                      ),
-                      padding: const EdgeInsets.all(25),
-                      child: Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "April 4, 2020",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  fontFamily: 'Nunito',
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const Text(
-                                "Multi-Ride",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 24,
-                                  fontFamily: 'Nunito',
-                                  color: Colors.black,
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            width: 70,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("PAYMENT",
-                                  textAlign: TextAlign.right,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 11,
-                                    fontFamily: 'Nunito',
-                                    color: Colors.red,
-                                  )),
-                              const Text(
-                                "INCOMPLETE",
-                                textAlign: TextAlign.right,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 11,
-                                    fontFamily: 'Nunito',
-                                    color: Colors.red),
-                              )
-                            ],
-                          )
-                        ],
-                      )),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                      width: screenWidth * 0.85,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16)),
-                        color: Colors.white,
-                      ),
-                      padding: const EdgeInsets.all(25),
-                      child: Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "April 4, 2020",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  fontFamily: 'Nunito',
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const Text(
-                                "Single Ride",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 24,
-                                  fontFamily: 'Nunito',
-                                  color: Colors.black,
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            width: 65,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("PAYMENT",
-                                  textAlign: TextAlign.right,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 11,
-                                    fontFamily: 'Nunito',
-                                    color: Colors.green,
-                                  )),
-                              const Text(
-                                "COMPLETED",
-                                textAlign: TextAlign.right,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 11,
-                                    fontFamily: 'Nunito',
-                                    color: Colors.green),
-                              )
-                            ],
-                          )
-                        ],
-                      )),
+                  RideInfo(isMulti: true, paidFor: true, date: DateTime(2020, 12, 24)),
+                  const SizedBox(height: 20),
+                  RideInfo(isMulti: false, paidFor: false, date: DateTime(2020, 4, 13)),
+                  const SizedBox(height: 20),
+                  RideInfo(isMulti: false, paidFor: false, date: DateTime(2020, 8, 21)),
+                  const SizedBox(height: 20),
+                  RideInfo(isMulti: true, paidFor: true, date: DateTime(2020, 9, 10)),
                 ],
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class RideInfo extends StatefulWidget {
+  RideInfo({
+    super.key,
+    required this.isMulti,
+    required this.paidFor,
+    required this.date,
+  });
+
+  final bool isMulti;
+  final DateTime date;
+  bool paidFor;
+
+  @override
+  State<RideInfo> createState() => _RideInfoState();
+}
+
+class _RideInfoState extends State<RideInfo> {
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    final DateFormat formatter = DateFormat('MMMM d, yyyy');
+    final String dateInfo = formatter.format(widget.date);
+
+    return Container(
+      width: screenWidth * 0.85,
+      height: 100,
+      decoration: const BoxDecoration(
+        borderRadius:
+            BorderRadius.all(Radius.circular(16)),
+        color: Colors.white,
+      ),
+      padding: const EdgeInsets.all(25),
+      child: Row(
+        children: [
+          Flexible(
+            flex: 2,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    dateInfo,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      fontFamily: 'Nunito',
+                      color: Colors.black,
+                    ),
+                  ),
+                  Text(
+                    widget.isMulti ? 'Multi-Ride' : 'Single-Ride',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 24,
+                      fontFamily: 'Nunito',
+                      color: Colors.black,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Flexible(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("PAYMENT",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 11,
+                      fontFamily: 'Nunito',
+                      color: 
+                        widget.paidFor ? Colors.green : Colors.red,
+                    )
+                  ),
+                  Text(
+                    widget.paidFor ? 'COMPLETED' : 'INCOMPLETE',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 11,
+                        fontFamily: 'Nunito',
+                        color: 
+                          widget.paidFor ? Colors.green : Colors.red,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      )
     );
   }
 }
