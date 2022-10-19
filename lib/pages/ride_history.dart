@@ -24,42 +24,69 @@ class _RideHistoryState extends State<RideHistory> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+    Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
 
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: const BackButton(
-        color: Color.fromRGBO(33, 41, 239, 1),
+      floatingActionButton: BackButton(
+        color: obcBlue,
       ),
       body: Stack(
         children: [
+          Padding(
+            padding: EdgeInsets.only(
+              left: 35,
+              top: screenHeight * 0.12,
+            ),
+            child: Text(
+              'Ride History',
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 30,
+                fontFamily: 'Nunito',
+                color: obcBlue,
+              ),
+            ),
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: const EdgeInsets.all(40.0),
               height: screenHeight * 0.75,
               decoration: BoxDecoration(
-                border: Border.all(color: const Color.fromRGBO(33, 41, 239, 1)),
+                border: Border.all(color: obcBlue),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(50),
                   topRight: Radius.circular(50),
                 ),
-                color: const Color.fromRGBO(33, 41, 239, 1),
-              ),
-              child: Column(
-                children: [
-                  RideInfo(isMulti: true, paidFor: true, date: DateTime(2020, 12, 24)),
-                  const SizedBox(height: 20),
-                  RideInfo(isMulti: false, paidFor: false, date: DateTime(2020, 4, 13)),
-                  const SizedBox(height: 20),
-                  RideInfo(isMulti: false, paidFor: false, date: DateTime(2020, 8, 21)),
-                  const SizedBox(height: 20),
-                  RideInfo(isMulti: true, paidFor: true, date: DateTime(2020, 9, 10)),
-                ],
+                color: obcBlue,
               ),
             ),
           ),
-        ],
+          DraggableScrollableSheet(
+            initialChildSize: 0.70,
+            minChildSize:  0.70,
+            maxChildSize: 0.70,
+            builder : (context, scrollController) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    RideInfo(isMulti: true, paidFor: true, date: DateTime(2020, 12, 24)),
+                    RideInfo(isMulti: false, paidFor: false, date: DateTime(2020, 4, 13)),
+                    RideInfo(isMulti: false, paidFor: false, date: DateTime(2020, 8, 21)),
+                    RideInfo(isMulti: true, paidFor: true, date: DateTime(2020, 9, 10)),
+                    RideInfo(isMulti: true, paidFor: true, date: DateTime(2020, 9, 10)),
+                    RideInfo(isMulti: true, paidFor: true, date: DateTime(2020, 9, 10)),
+                    RideInfo(isMulti: true, paidFor: true, date: DateTime(2020, 9, 10)),
+                    RideInfo(isMulti: true, paidFor: true, date: DateTime(2020, 9, 10)),
+                    RideInfo(isMulti: true, paidFor: true, date: DateTime(2020, 9, 10)),
+                  ],
+                ),
+              );
+            },
+          ),
+        ]
       ),
     );
   }
@@ -98,6 +125,7 @@ class _RideInfoState extends State<RideInfo> {
         color: Colors.white,
       ),
       padding: const EdgeInsets.all(25),
+      margin: const EdgeInsets.only(bottom: 20),
       child: Row(
         children: [
           Flexible(
