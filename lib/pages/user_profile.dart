@@ -56,15 +56,29 @@ class _UserProfileState extends State<UserProfile> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  'User Profile',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                    fontFamily: 'Nunito',
-                    color: Color.fromRGBO(33, 41, 239, 1),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.manage_accounts,
+                        color: Color.fromRGBO(33, 41, 239, 1),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/UserCreate');
+                      },
+                    ),
+                    const Text(
+                      'User Profile',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20,
+                        fontFamily: 'Nunito',
+                        color: Color.fromRGBO(33, 41, 239, 1),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 10),
                 Container(

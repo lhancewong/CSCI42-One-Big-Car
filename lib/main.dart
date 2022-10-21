@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
-import 'package:one_big_car/pages/login_page.dart';
+import 'package:one_big_car/pages/user_create.dart';
 import 'package:one_big_car/pages/user_homepage.dart';
 import 'package:one_big_car/pages/user_profile.dart';
 import 'package:one_big_car/pages/landing_page.dart';
@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const Landing(),
+        '/UserCreate': (context) => const UserCreate(),
         '/Homepage': (context) => const UserHomepage(),
         '/SingleBooking': (context) => const SingleBooking(),
         '/RideHistory': (context) => const RideHistory(),
@@ -96,7 +97,6 @@ class MyApp extends StatelessWidget {
           );
         }),
         '/UserProfile': (context) => const UserProfile(),
-        '/SingleBooking': (context) => const SingleBooking(),
       },
     );
   }
