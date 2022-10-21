@@ -25,13 +25,14 @@ class _UserProfileState extends State<UserProfile> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
+    Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
     Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
 
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: const BackButton(
-        color: Color.fromRGBO(33, 41, 239, 1),
+      floatingActionButton: BackButton(
+        color: obcBlue,
       ),
       body: Stack(
         children: [
@@ -41,12 +42,12 @@ class _UserProfileState extends State<UserProfile> {
               height: screenHeight * 0.75,
               alignment: Alignment.bottomCenter,
               decoration: BoxDecoration(
-                border: Border.all(color: const Color.fromRGBO(33, 41, 239, 1)),
+                border: Border.all(color: obcBlue),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(50),
                   topRight: Radius.circular(50),
                 ),
-                color: const Color.fromRGBO(33, 41, 239, 1),
+                color: obcBlue,
               ),
             ),
           ),
@@ -56,14 +57,14 @@ class _UserProfileState extends State<UserProfile> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
+                Text(
                   'User Profile',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 20,
                     fontFamily: 'Nunito',
-                    color: Color.fromRGBO(33, 41, 239, 1),
+                    color: obcBlue,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -72,7 +73,7 @@ class _UserProfileState extends State<UserProfile> {
                   height: screenWidth * 0.65,
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: const Color.fromRGBO(33, 41, 239, 1),
+                      color: obcBlue,
                       width: screenWidth * 0.020,
                     ),
                     shape: BoxShape.circle,
@@ -106,16 +107,16 @@ class _UserProfileState extends State<UserProfile> {
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       border: Border.all(
-                          color: const Color.fromRGBO(33, 41, 239, 1)),
+                          color: obcBlue),
                       borderRadius: const BorderRadius.all(Radius.circular(16)),
                       color: Colors.white),
                   child: DropdownButton<String>(
                     value: dropdownValue,
                     underline: Container(color: Colors.white),
                     isExpanded: true,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.expand_more,
-                      color: Color.fromRGBO(33, 41, 239, 1),
+                      color: obcBlue,
                     ),
                     onChanged: (String? newValue) {
                       setState(() {
@@ -151,13 +152,13 @@ class _UserProfileState extends State<UserProfile> {
                             borderRadius: BorderRadius.circular(13),
                             side: BorderSide(color: obcGrey))),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Home",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 26,
                         fontFamily: 'Nunito',
-                        color: Color.fromRGBO(33, 41, 239, 1),
+                        color: obcBlue,
                       )),
                   onPressed: () {
                     Navigator.of(context).pushNamed('/Homepage');
