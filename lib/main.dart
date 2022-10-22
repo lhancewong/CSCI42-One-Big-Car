@@ -14,6 +14,7 @@ import 'package:one_big_car/pages/landing_page.dart';
 import 'package:one_big_car/pages/single_booking.dart';
 import 'package:one_big_car/pages/ride_history.dart';
 import 'package:one_big_car/pages/chat_selection.dart';
+import 'package:one_big_car/pages/chat_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/ChatSelection',
+      initialRoute: '/ChatPage',
       routes: {
         '/': (context) => const Landing(),
         '/Homepage': (context) => const UserHomepage(),
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         '/SingleBooking': (context) => const SingleBooking(),
         '/RideHistory': (context) => const RideHistory(),
         '/ChatSelection': (context) => const ChatSelection(),
+        '/ChatPage': (context) => const ChatPage(),
         '/LogIn': ((context) {
           return SignInScreen(
             actions: [

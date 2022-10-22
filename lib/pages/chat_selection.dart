@@ -54,6 +54,8 @@ class _ChatSelectionState extends State<ChatSelection> {
                 ),
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
+
+              /// Each Selection of chat showing name and picture
               child: Column(
                 children: [
                   ChatBox(
