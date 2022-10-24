@@ -60,7 +60,7 @@ class _ChatSelectionState extends State<ChatSelection> {
                 children: [
                   ChatBox(
                       chatName: "Wilbert",
-                      chatText: "testText",
+                      chatText: "Is there a character that...",
                       time: DateTime(1, 1, 1, 11, 26)),
                   ChatBox(
                       chatName: "Lhance",
@@ -96,19 +96,39 @@ class _ChatBoxState extends State<ChatBox> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    
+    Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
 
     final DateFormat formatter = DateFormat('hh:mm');
     final String timeInfo = formatter.format(widget.time);
 
     return Container(
         width: screenWidth,
-        height: 80,
+        height: 100,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(16)),
           color: Color.fromARGB(255, 255, 255, 255),
         ),
         padding: const EdgeInsets.only(top: 10, bottom: 10, right: 10),
-        child: Row(
+        child: ElevatedButton(
+          style: ButtonStyle(
+          padding: const MaterialStatePropertyAll(
+            EdgeInsets.all(14)),
+          backgroundColor:
+            MaterialStatePropertyAll<Color>(obcGrey),
+          foregroundColor:
+            const MaterialStatePropertyAll<Color>(
+              Colors.black),
+            shape:
+              MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(13),
+                  side: BorderSide(color: obcGrey))),
+          ),
+          onPressed: () {
+            Navigator.of(context).pushNamed('/ChatPage');
+          },
+          child: Row(
           children: [
             Flexible(
               child: Container(
@@ -172,6 +192,6 @@ class _ChatBoxState extends State<ChatBox> {
               ),
             )
           ],
-        ));
+        )));
   }
 }

@@ -150,23 +150,25 @@ class _UserHomepageState extends State<UserHomepage> {
 
           // BackButton
           Container(
-              margin: const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(30),
               child: const Align(
                 alignment: Alignment.topLeft,
                 child: BackButton(color: Colors.white),
               )),
           // ChatButton
           Container(
-              margin: const EdgeInsets.all(10),
-              child: const Align(
+              margin: const EdgeInsets.all(30),
+              child: Align(
                 alignment: Alignment.topRight,
                 child: ElevatedButton(
-                  style: ButtonStyle(
+                  style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll<Color>(
                         Color.fromRGBO(33, 41, 239, 1)),
                   ),
-                  onPressed: null,
-                  child: Icon(
+                  onPressed: () {
+                          Navigator.of(context).pushNamed('/ChatSelection');
+                        },
+                  child: const Icon(
                     Icons.chat,
                     color: Colors.white,
                   ),
