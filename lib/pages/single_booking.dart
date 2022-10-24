@@ -164,7 +164,7 @@ class _SingleBookingState extends State<SingleBooking> {
           ),
           // BackButton
           Container(
-            margin: const EdgeInsets.all(10),
+            margin: const EdgeInsets.all(30),
             child: const Align(
               alignment: Alignment.topLeft,
               child: BackButton(color: Colors.white),

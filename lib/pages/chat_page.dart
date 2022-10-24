@@ -12,6 +12,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
+  TextEditingController textController = TextEditingController();
 
   String getData() {
     final User user = auth.currentUser!;
@@ -22,6 +23,8 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+
+    String username = "Wilbert";
 
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
@@ -47,8 +50,8 @@ class _ChatPageState extends State<ChatPage> {
                 ),
                 Container(
                     margin: const EdgeInsets.only(left: 20),
-                    child: const Text(
-                      "User Name",
+                    child: Text(
+                      username,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 24,
@@ -90,8 +93,8 @@ class _ChatPageState extends State<ChatPage> {
                               Container(
                                 margin: const EdgeInsets.only(left: 10),
                                 width: screenWidth * 0.50,
-                                child: const Text(
-                                  "User Name",
+                                child: Text(
+                                  username,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w300,
                                     fontSize: 14,
@@ -200,16 +203,21 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                   child: Align(
                       alignment: Alignment.centerLeft,
-                      child: const Text(
-                        "Aa",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w300,
-                          fontSize: 18,
-                          fontFamily: 'Nunito',
-                          color: Color.fromARGB(255, 255, 255, 255),
+                      child: TextField(
+                        keyboardType: TextInputType.multiline,
+                        controller: textController,
+                        style: const TextStyle(fontSize:16),
+                        decoration: const InputDecoration(
+                          hintText: 'Aa',
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                            color: Color.fromRGBO(33, 41, 239, 1),
+                            width: 3.0,
+                            ), 
+                          ),
                         ),
-                        textAlign: TextAlign.left,
-                      )),
+                      ),
+                  ),
                 )),
           )
         ],
