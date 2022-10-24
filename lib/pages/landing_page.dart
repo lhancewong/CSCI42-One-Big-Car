@@ -55,7 +55,7 @@ class _LandingState extends State<Landing> {
                     color: Color.fromRGBO(33, 41, 239, 1),
                   ),
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 80),
                 const Text(
                   "ONE BIG CAR",
                   textAlign: TextAlign.right,
@@ -70,6 +70,7 @@ class _LandingState extends State<Landing> {
                 const Image(
                     image: AssetImage('assets/car.png'),
                 ),
+                const SizedBox(height: 10),
                 Consumer<ApplicationState>(
                   builder: (context, appState, _) => AuthFunc(
                     loggedIn: appState.loggedIn,
