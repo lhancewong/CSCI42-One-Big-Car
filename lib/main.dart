@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'One Big Car!',
       theme: ThemeData(
@@ -57,17 +58,17 @@ class MyApp extends StatelessWidget {
               })),
               AuthStateChangeAction(((context, state) {
                 if (state is SignedIn || state is UserCreated) {
-                  var user = (state is SignedIn)
+                  var authUser = (state is SignedIn)
                       ? state.user
                       : (state as UserCreated).credential.user;
-                  if (user == null) {
+                  if (authUser == null) {
                     return;
                   }
                   if (state is UserCreated) {
-                    user.updateDisplayName(user.email!.split('@')[0]);
+                    authUser.updateDisplayName(authUser.email!.split('@')[0]);
                   }
-                  if (!user.emailVerified) {
-                    user.sendEmailVerification();
+                  if (!authUser.emailVerified) {
+                    authUser.sendEmailVerification();
                     const snackBar = SnackBar(
                         content: Text(
                             'Please check your email to verify your email address'));
@@ -86,18 +87,6 @@ class MyApp extends StatelessWidget {
           return ForgotPasswordScreen(
             email: arguments?['email'] as String,
             headerMaxExtent: 200,
-          );
-        }),
-        '/profile': ((context) {
-          return ProfileScreen(
-            providers: [],
-            actions: [
-              SignedOutAction(
-                ((context) {
-                  Navigator.of(context).pushReplacementNamed('/');
-                }),
-              ),
-            ],
           );
         }),
       },

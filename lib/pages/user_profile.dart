@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 const List<String> list = <String>['HEAD', 'PASSENGER'];
 
@@ -14,14 +15,17 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   String dropdownValue = list.first;
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final database = FirebaseDatabase.instance.ref();
 
   String getData() {
-    final User user = auth.currentUser!;
-    return user.displayName!;
+    final User authUser = auth.currentUser!;
+    return authUser.displayName!;
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = database.child("/user");
+
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
@@ -106,8 +110,7 @@ class _UserProfileState extends State<UserProfile> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                      border: Border.all(
-                          color: obcBlue),
+                      border: Border.all(color: obcBlue),
                       borderRadius: const BorderRadius.all(Radius.circular(16)),
                       color: Colors.white),
                   child: DropdownButton<String>(
@@ -152,15 +155,47 @@ class _UserProfileState extends State<UserProfile> {
                             borderRadius: BorderRadius.circular(13),
                             side: BorderSide(color: obcGrey))),
                   ),
-                  child: Text(
-                    "Home",
+                  child: Text("Save",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 26,
                         fontFamily: 'Nunito',
                         color: obcBlue,
                       )),
-                  onPressed: () {
+                  onPressed: () async {
+                    final user = <String, dynamic>{
+                      'username': getData(),
+                      'role': dropdownValue,
+                    };
+                    database
+                        .child('users')
+                        .push()
+                        .set(user)
+                        .then((_) => print('User created!'))
+                        .catchError((error) => print('Error: $error'));
+                  },
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    padding: const MaterialStatePropertyAll(
+                        EdgeInsets.fromLTRB(90, 15, 90, 15)),
+                    backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
+                    foregroundColor:
+                        const MaterialStatePropertyAll<Color>(Colors.black),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(13),
+                            side: BorderSide(color: obcGrey))),
+                  ),
+                  child: Text("Home",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 26,
+                        fontFamily: 'Nunito',
+                        color: obcBlue,
+                      )),
+                  onPressed: () async {
                     Navigator.of(context).pushNamed('/Homepage');
                   },
                 ),
