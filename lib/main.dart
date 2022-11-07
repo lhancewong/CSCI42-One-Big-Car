@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
+import 'package:one_big_car/pages/ride_list.dart';
 import 'package:one_big_car/pages/login_page.dart';
 import 'package:one_big_car/pages/user_homepage.dart';
 import 'package:one_big_car/pages/user_profile.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         '/RideHistory': (context) => const RideHistory(),
         '/ChatSelection': (context) => const ChatSelection(),
         '/ChatPage': (context) => const ChatPage(),
+        '/RideList': (context) => const RideList(),
         '/LogIn': ((context) {
           return SignInScreen(
             actions: [
