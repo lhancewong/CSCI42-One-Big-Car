@@ -620,6 +620,9 @@ PODS:
   - Firebase/Firestore (9.6.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 9.6.0)
+  - Firebase/InAppMessaging (9.6.0):
+    - Firebase/CoreOnly
+    - FirebaseInAppMessaging (~> 9.6.0-beta)
   - firebase_auth (3.11.2):
     - Firebase/Auth (= 9.6.0)
     - firebase_core
@@ -635,6 +638,12 @@ PODS:
     - Firebase/DynamicLinks (= 9.6.0)
     - firebase_core
     - Flutter
+  - firebase_in_app_messaging (0.6.0-27):
+    - Firebase/InAppMessaging (= 9.6.0)
+    - firebase_core
+    - Flutter
+  - FirebaseABTesting (9.6.0):
+    - FirebaseCore (~> 9.0)
   - FirebaseAuth (9.6.0):
     - FirebaseCore (~> 9.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
@@ -670,6 +679,17 @@ PODS:
     - "gRPC-C++ (~> 1.44.0)"
     - leveldb-library (~> 1.22)
     - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseInAppMessaging (9.6.0-beta):
+    - FirebaseABTesting (~> 9.0)
+    - FirebaseCore (~> 9.0)
+    - FirebaseInstallations (~> 9.0)
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseInstallations (9.6.0):
+    - FirebaseCore (~> 9.0)
+    - GoogleUtilities/Environment (~> 7.7)
+    - GoogleUtilities/UserDefaults (~> 7.7)
+    - PromisesObjC (~> 2.1)
   - Flutter (1.0.0)
   - GoogleDataTransport (9.2.0):
     - GoogleUtilities/Environment (~> 7.7)
@@ -689,6 +709,8 @@ PODS:
     - GoogleUtilities/Reachability
   - "GoogleUtilities/NSData+zlib (7.8.0)"
   - GoogleUtilities/Reachability (7.8.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (7.8.0):
     - GoogleUtilities/Logger
   - "gRPC-C++ (1.44.0)":
     - "gRPC-C++/Implementation (= 1.44.0)"
@@ -762,6 +784,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - firebase_dynamic_links (from `.symlinks/plugins/firebase_dynamic_links/ios`)
+  - firebase_in_app_messaging (from `.symlinks/plugins/firebase_in_app_messaging/ios`)
   - Flutter (from `Flutter`)
 
 SPEC REPOS:
@@ -769,6 +792,7 @@ SPEC REPOS:
     - abseil
     - BoringSSL-GRPC
     - Firebase
+    - FirebaseABTesting
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreDiagnostics
@@ -776,6 +800,8 @@ SPEC REPOS:
     - FirebaseDatabase
     - FirebaseDynamicLinks
     - FirebaseFirestore
+    - FirebaseInAppMessaging
+    - FirebaseInstallations
     - GoogleDataTransport
     - GoogleUtilities
     - "gRPC-C++"
@@ -797,6 +823,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_database/ios"
   firebase_dynamic_links:
     :path: ".symlinks/plugins/firebase_dynamic_links/ios"
+  firebase_in_app_messaging:
+    :path: ".symlinks/plugins/firebase_in_app_messaging/ios"
   Flutter:
     :path: Flutter
 
@@ -809,6 +837,8 @@ SPEC CHECKSUMS:
   firebase_core: 7c28ecc1e5dd74e03829ac3e9ff5ba3314e737a9
   firebase_database: 115298eac49923a9b69a10c56f6ecf8eee10601c
   firebase_dynamic_links: 30b2cc48b8c7493ad07f6a87fe7023b9729e8091
+  firebase_in_app_messaging: 1f15d0053e5e44b58bc94890517acc8384103133
+  FirebaseABTesting: 61826730ce9eee8781ba99a2b3420e9bce148dc9
   FirebaseAuth: e4a5d3c36e778e41141b91cc861103a441d80bcc
   FirebaseCore: 2082fffcd855f95f883c0a1641133eb9bbe76d40
   FirebaseCoreDiagnostics: 99a495094b10a57eeb3ae8efa1665700ad0bdaa6
@@ -816,6 +846,8 @@ SPEC CHECKSUMS:
   FirebaseDatabase: 3de19e533a73d45e25917b46aafe1dd344ec8119
   FirebaseDynamicLinks: 894ee3b4e56a77abee067d371c9a23e7b5a3c686
   FirebaseFirestore: c09ce6d050745a45fb75ebd901005ed3279c3caf
+  FirebaseInAppMessaging: 64f19fde7c3010c170af2c8c629bdb484a4ba642
+  FirebaseInstallations: 0a115432c4e223c5ab20b0dbbe4cbefa793a0e8e
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7

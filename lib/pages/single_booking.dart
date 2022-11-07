@@ -1,5 +1,6 @@
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class SingleBooking extends StatefulWidget {
   const SingleBooking({super.key});
@@ -9,6 +10,12 @@ class SingleBooking extends StatefulWidget {
 }
 
 class _SingleBookingState extends State<SingleBooking> {
+  final database = FirebaseDatabase.instance.ref();
+
+  TextEditingController TextController1 = TextEditingController();
+  TextEditingController TextController2 = TextEditingController();
+  TextEditingController TextController3 = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     DateTime selectedDate;
@@ -75,7 +82,8 @@ class _SingleBookingState extends State<SingleBooking> {
                   children: [
                     const SizedBox(height: 20),
                     // Pick-up area textfield
-                    const TextField(
+                    TextField(
+                      controller: TextController1,
                       style: TextStyle(fontSize:14),
                       decoration: InputDecoration(
                         labelText: 'Pick-up Area',
@@ -89,7 +97,8 @@ class _SingleBookingState extends State<SingleBooking> {
                     ),
                     const SizedBox(height:20),
                     // Drop-off area textfield
-                    const TextField(
+                    TextField(
+                      controller: TextController2,
                       style: TextStyle(fontSize:14),
                       decoration: InputDecoration(
                         labelText: 'Drop-off Area',
@@ -185,9 +194,20 @@ class _SingleBookingState extends State<SingleBooking> {
                 color: obcBlue,
               ),
               // Submit Single Ride Button
-              child: const TextButton(
-                onPressed: null,
-                child: Text(
+              child: TextButton(
+                onPressed: () async {
+                final booking = <String, dynamic>{
+                      'pick-up': TextController1,
+                      'drop-off': TextController2,
+                    };
+                    database
+                        .child('bookings')
+                        .push()
+                        .set(booking)
+                        .then((_) => print('Booking created!'))
+                        .catchError((error) => print('Error: $error'));
+                },
+                child: const Text(
                   'Submit Single-ride Request',
                   style: TextStyle(
                     fontSize: 20,

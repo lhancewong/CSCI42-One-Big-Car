@@ -24,8 +24,6 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final user = database.child("/user");
-
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
@@ -163,14 +161,14 @@ class _UserProfileState extends State<UserProfile> {
                         color: obcBlue,
                       )),
                   onPressed: () async {
-                    final user = <String, dynamic>{
+                    final users = <String, dynamic>{
                       'username': getData(),
                       'role': dropdownValue,
                     };
                     database
-                        .child('users')
+                        .child('user')
                         .push()
-                        .set(user)
+                        .set(users)
                         .then((_) => print('User created!'))
                         .catchError((error) => print('Error: $error'));
                   },
