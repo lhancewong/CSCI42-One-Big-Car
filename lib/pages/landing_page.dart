@@ -13,12 +13,11 @@ class Landing extends StatefulWidget {
 }
 
 class _LandingState extends State<Landing> {
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-  
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -68,12 +67,12 @@ class _LandingState extends State<Landing> {
                   ),
                 ),
                 const Image(
-                    image: AssetImage('assets/car.png'),
+                  image: AssetImage('assets/car.png'),
                 ),
                 const SizedBox(height: 10),
                 Consumer<ApplicationState>(
                   builder: (context, appState, _) => AuthFunc(
-                    loggedIn: appState.loggedIn,
+                      loggedIn: appState.loggedIn,
                       signOut: () {
                         FirebaseAuth.instance.signOut();
                       }),
