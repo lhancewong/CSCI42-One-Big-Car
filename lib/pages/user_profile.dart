@@ -168,7 +168,7 @@ class _UserProfileState extends State<UserProfile> {
                     database
                         .child('user')
                         .push()
-                        .set(users)
+                        .update(users)
                         .then((_) => print('User created!'))
                         .catchError((error) => print('Error: $error'));
                   },

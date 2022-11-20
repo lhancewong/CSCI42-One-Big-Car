@@ -197,13 +197,13 @@ class _SingleBookingState extends State<SingleBooking> {
               child: TextButton(
                 onPressed: () async {
                 final booking = <String, dynamic>{
-                      'pick-up': TextController1,
-                      'drop-off': TextController2,
+                      'pick-up': TextController1.text,
+                      'drop-off': TextController2.text
                     };
                     database
                         .child('bookings')
                         .push()
-                        .set(booking)
+                        .update(booking)
                         .then((_) => print('Booking created!'))
                         .catchError((error) => print('Error: $error'));
                 },
