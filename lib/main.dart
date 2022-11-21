@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 import 'package:one_big_car/pages/ride_list.dart';
-import 'package:one_big_car/pages/login_page.dart';
+import 'package:one_big_car/authentication/login_page.dart';
 import 'package:one_big_car/pages/user_homepage.dart';
 import 'package:one_big_car/pages/user_profile.dart';
 import 'package:one_big_car/pages/landing_page.dart';
@@ -16,11 +16,13 @@ import 'package:one_big_car/pages/single_booking.dart';
 import 'package:one_big_car/pages/ride_history.dart';
 import 'package:one_big_car/pages/chat_selection.dart';
 import 'package:one_big_car/pages/chat_page.dart';
+import 'package:one_big_car/authentication/register_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
+    name: 'one-big-car',
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
@@ -51,7 +53,9 @@ class MyApp extends StatelessWidget {
         '/ChatSelection': (context) => const ChatSelection(),
         '/ChatPage': (context) => const ChatPage(),
         '/RideList': (context) => const RideList(),
-        '/LogIn': ((context) {
+        '/Register': (context) => const Register(),
+        '/LogIn': (context) => const LogIn(),
+        /* ((context) {
           return SignInScreen(
             actions: [
               ForgotPasswordAction(((context, email) {
@@ -90,7 +94,7 @@ class MyApp extends StatelessWidget {
             email: arguments?['email'] as String,
             headerMaxExtent: 200,
           );
-        }),
+        }), */
       },
     );
   }

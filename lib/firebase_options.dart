@@ -54,6 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:706559122677:android:6a0fac496443d3a39fb9bc',
     messagingSenderId: '706559122677',
     projectId: 'one-big-car-d8e4e',
+    databaseURL: 'https://one-big-car-d8e4e-default-rtdb.firebaseio.com',
     storageBucket: 'one-big-car-d8e4e.appspot.com',
   );
 
@@ -62,6 +63,7 @@ class DefaultFirebaseOptions {
     appId: '1:706559122677:ios:e0f6dabe23a04cd09fb9bc',
     messagingSenderId: '706559122677',
     projectId: 'one-big-car-d8e4e',
+    databaseURL: 'https://one-big-car-d8e4e-default-rtdb.firebaseio.com',
     storageBucket: 'one-big-car-d8e4e.appspot.com',
     iosClientId: '706559122677-68htudsp8tr6nfh78t9ohlirnvi2oim4.apps.googleusercontent.com',
     iosBundleId: 'com.example.oneBigCar',

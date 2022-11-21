@@ -17,10 +17,10 @@ class _UserProfileState extends State<UserProfile> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final database = FirebaseDatabase.instance.ref();
 
-  String getData() {
+  /* String getData() {
     final User authUser = auth.currentUser!;
     return authUser.displayName!;
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,7 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  getData(),
+                  "getData()",
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     height: 1,
@@ -162,7 +162,7 @@ class _UserProfileState extends State<UserProfile> {
                       )),
                   onPressed: () async {
                     final users = <String, dynamic>{
-                      'username': getData(),
+                      'username': "getData()",
                       'role': dropdownValue,
                     };
                     database
