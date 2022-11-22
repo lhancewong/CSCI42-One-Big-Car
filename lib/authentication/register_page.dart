@@ -106,6 +106,7 @@ class _RegisterState extends State<Register> {
                   const SizedBox(height: 20),
                   TextField(
                     keyboardType: TextInputType.emailAddress,
+                    enableSuggestions: false,
                     controller: emailTextController,
                     style: const TextStyle(fontSize: 16),
                     decoration: const InputDecoration(
@@ -120,7 +121,8 @@ class _RegisterState extends State<Register> {
                   ),
                   const SizedBox(height: 10),
                   TextField(
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.name,
+                    enableSuggestions: false,
                     controller: firstNameTextController,
                     style: const TextStyle(fontSize: 16),
                     decoration: const InputDecoration(
@@ -135,7 +137,8 @@ class _RegisterState extends State<Register> {
                   ),
                   const SizedBox(height: 10),
                   TextField(
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.name,
+                    enableSuggestions: false,
                     controller: lastNameTextController,
                     style: const TextStyle(fontSize: 16),
                     decoration: const InputDecoration(
@@ -150,7 +153,7 @@ class _RegisterState extends State<Register> {
                   ),
                   const SizedBox(height: 10),
                   TextField(
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.number,
                     controller: yearTextController,
                     style: const TextStyle(fontSize: 16),
                     decoration: const InputDecoration(
@@ -165,7 +168,8 @@ class _RegisterState extends State<Register> {
                   ),
                   const SizedBox(height: 10),
                   TextField(
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.name,
+                    enableSuggestions: false,
                     controller: courseTextController,
                     style: const TextStyle(fontSize: 16),
                     decoration: const InputDecoration(
@@ -183,6 +187,7 @@ class _RegisterState extends State<Register> {
                     obscureText: true,
                     obscuringCharacter: "•",
                     controller: passwordTextController,
+                    enableSuggestions: false,
                     style: const TextStyle(fontSize: 16),
                     decoration: const InputDecoration(
                       labelText: 'Password',
@@ -199,6 +204,7 @@ class _RegisterState extends State<Register> {
                     obscureText: true,
                     obscuringCharacter: "•",
                     controller: confirmPasswordTextController,
+                    enableSuggestions: false,
                     style: const TextStyle(fontSize: 16),
                     decoration: const InputDecoration(
                       labelText: 'Confirm Password',

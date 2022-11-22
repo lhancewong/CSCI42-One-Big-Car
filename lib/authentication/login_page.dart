@@ -77,6 +77,8 @@ class _LogInState extends State<LogIn> {
                   const SizedBox(height: 20),
                   TextField(
                     keyboardType: TextInputType.emailAddress,
+                    autocorrect: false,
+                    enableSuggestions: false,
                     controller: emailTextController,
                     style: const TextStyle(fontSize: 16),
                     decoration: const InputDecoration(
@@ -94,6 +96,7 @@ class _LogInState extends State<LogIn> {
                     obscureText: true,
                     obscuringCharacter: "•",
                     controller: passwordTextController,
+                    enableSuggestions: false,
                     style: const TextStyle(fontSize: 16),
                     decoration: const InputDecoration(
                       labelText: 'Password',

@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:one_big_car/global/global.dart';
 
 const List<String> list = <String>['HEAD', 'PASSENGER'];
 
@@ -14,13 +16,18 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   String dropdownValue = list.first;
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  final database = FirebaseDatabase.instance.ref();
 
-  /* String getData() {
-    final User authUser = auth.currentUser!;
-    return authUser.displayName!;
-  } */
+  saveInfo() {
+    Map userMap = {
+      "role": dropdownValue,
+    };
+
+    DatabaseReference usersRef = FirebaseDatabase.instance.ref().child("users");
+    usersRef.child(currentFirebaseUser!.uid).child("profile").set(userMap);
+
+    Fluttertoast.showToast(msg: "Profile information has been saved.");
+    Navigator.pushNamed(context, '/Homepage');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,41 +167,8 @@ class _UserProfileState extends State<UserProfile> {
                         fontFamily: 'Nunito',
                         color: obcBlue,
                       )),
-                  onPressed: () async {
-                    final users = <String, dynamic>{
-                      'username': "getData()",
-                      'role': dropdownValue,
-                    };
-                    database
-                        .child('user')
-                        .push()
-                        .update(users)
-                        .then((_) => print('User created!'))
-                        .catchError((error) => print('Error: $error'));
-                  },
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    padding: const MaterialStatePropertyAll(
-                        EdgeInsets.fromLTRB(90, 15, 90, 15)),
-                    backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
-                    foregroundColor:
-                        const MaterialStatePropertyAll<Color>(Colors.black),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(13),
-                            side: BorderSide(color: obcGrey))),
-                  ),
-                  child: Text("Home",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 26,
-                        fontFamily: 'Nunito',
-                        color: obcBlue,
-                      )),
-                  onPressed: () async {
-                    Navigator.of(context).pushNamed('/Homepage');
+                  onPressed: () {
+                    saveInfo();
                   },
                 ),
               ],

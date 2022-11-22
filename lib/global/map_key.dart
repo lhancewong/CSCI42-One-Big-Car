@@ -1,1 +1,3 @@
-String mapKey = "AIzaSyDY9MFDG5vHZarHChpPdYHE71V7fp182JE";
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+String mapKey = dotenv.get('API_URL', fallback: 'API_URL not found');
