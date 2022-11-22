@@ -28,6 +28,7 @@ class _UserHomepageState extends State<UserHomepage> {
 
     Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
     Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
+    Color obcLightBlue = const Color.fromRGBO(33, 41, 239, 0.5);
 
     return Scaffold(
         backgroundColor: obcBlue,
@@ -115,7 +116,10 @@ class _UserHomepageState extends State<UserHomepage> {
                                         borderRadius: BorderRadius.circular(13),
                                         side: BorderSide(color: obcGrey))),
                               ),
-                              onPressed: null,
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed('/PassengerList');
+                              },
                               child: const Text('View Passengers',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -176,8 +180,8 @@ class _UserHomepageState extends State<UserHomepage> {
                         Color.fromRGBO(33, 41, 239, 1)),
                   ),
                   onPressed: () {
-                          Navigator.of(context).pushNamed('/ChatSelection');
-                        },
+                    Navigator.of(context).pushNamed('/ChatSelection');
+                  },
                   child: const Icon(
                     Icons.chat,
                     color: Colors.white,
@@ -215,35 +219,24 @@ class _UserHomepageState extends State<UserHomepage> {
               )),
           // Bottom Loading Bar
           Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                  height: screenHeight * 0.10,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: obcBlue),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(50),
-                      topRight: Radius.circular(50),
-                    ),
-                    color: obcBlue,
-                  ),
-                  child: Row(
+            alignment: Alignment.bottomCenter,
+            child: ElevatedButton(
+                onPressed: null,
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(200, screenHeight * 0.10),
+                  backgroundColor: Colors.lightBlue,
+                ),
+                child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
-                      Icon(
-                        Icons.refresh,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        ' Searching for a ride',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Nunito',
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
-                  )))
+                      Text('View currenet ride details',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Nunito',
+                            color: Colors.white,
+                          ))
+                    ])),
+          )
         ]));
   }
 }

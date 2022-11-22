@@ -16,6 +16,7 @@ import 'package:one_big_car/pages/single_booking.dart';
 import 'package:one_big_car/pages/ride_history.dart';
 import 'package:one_big_car/pages/chat_selection.dart';
 import 'package:one_big_car/pages/chat_page.dart';
+import 'package:one_big_car/pages/passenger_list.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +36,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: 'One Big Car!',
       theme: ThemeData(
@@ -51,6 +51,7 @@ class MyApp extends StatelessWidget {
         '/ChatSelection': (context) => const ChatSelection(),
         '/ChatPage': (context) => const ChatPage(),
         '/RideList': (context) => const RideList(),
+        '/PassengerList': (context) => const PassengerList(),
         '/LogIn': ((context) {
           return SignInScreen(
             actions: [
