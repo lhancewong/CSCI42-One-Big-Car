@@ -17,8 +17,8 @@ class _LogInState extends State<LogIn> {
   validateForm() {
     if (!emailTextController.text.contains("@")) {
       Fluttertoast.showToast(msg: "Email address is not valid.");
-    } else if (passwordTextController.text.length < 6) {
-      Fluttertoast.showToast(msg: "Password must be at least 6 characters.");
+    } else if (passwordTextController.text.isEmpty) {
+      Fluttertoast.showToast(msg: "Password is required.");
     } else {
       saveInfo();
       Navigator.pushNamed(context, '/UserProfile', arguments: <String, String>{
@@ -30,7 +30,7 @@ class _LogInState extends State<LogIn> {
 
   saveInfo() async {
     final User? firebaseUser = (await fAuth
-        .createUserWithEmailAndPassword(
+        .signInWithEmailAndPassword(
       email: emailTextController.text.trim(),
       password: passwordTextController.text.trim(),
     )
@@ -40,12 +40,12 @@ class _LogInState extends State<LogIn> {
     })).user;
 
     if (firebaseUser != null) {
-      Map userMap = {
-        "id": firebaseUser.uid,
-      };
+      currentFirebaseUser = firebaseUser;
+      await Fluttertoast.showToast(msg: "Login Successful.");
+      Navigator.pushNamed(context, '/UserProfile');
     } else {
       Navigator.pop(context);
-      Fluttertoast.showToast(msg: "Account has not been created.");
+      Fluttertoast.showToast(msg: "Error Occurred during Login.");
     }
   }
 
@@ -136,7 +136,7 @@ class _LogInState extends State<LogIn> {
                         )),
                   ),
                   TextButton(
-                    onPressed: () async {
+                    onPressed: () {
                       Navigator.of(context).pushNamed('/Register');
                     },
                     child: const Text(

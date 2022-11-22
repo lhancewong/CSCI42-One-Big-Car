@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
+import 'package:one_big_car/global/global.dart';
 
 class UserHomepage extends StatefulWidget {
   const UserHomepage({super.key});
@@ -17,10 +18,14 @@ class UserHomepage extends StatefulWidget {
 class _UserHomepageState extends State<UserHomepage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  String getData() {
-    final User user = auth.currentUser!;
-    return user.displayName!;
+  String? getData() {            
+    currentFirebaseUser = fAuth.currentUser;            
+    if (currentFirebaseUser != null) {
+    return "Username can't be empty";
   }
+
+    return null;
+  } 
 
   @override
   Widget build(BuildContext context) {
@@ -176,8 +181,8 @@ class _UserHomepageState extends State<UserHomepage> {
                         Color.fromRGBO(33, 41, 239, 1)),
                   ),
                   onPressed: () {
-                          Navigator.of(context).pushNamed('/ChatSelection');
-                        },
+                    Navigator.of(context).pushNamed('/ChatSelection');
+                  },
                   child: const Icon(
                     Icons.chat,
                     color: Colors.white,
