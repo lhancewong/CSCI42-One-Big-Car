@@ -19,7 +19,7 @@ class _UserHomepageState extends State<UserHomepage> {
 
   String getData() {
     final User user = auth.currentUser!;
-    return user.displayName!;
+    return user.displayName ?? 'Anon User';
   }
 
   @override

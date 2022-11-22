@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: 'One Big Car!',
       theme: ThemeData(
@@ -50,7 +49,7 @@ class MyApp extends StatelessWidget {
         '/RideHistory': (context) => const RideHistory(),
         '/ChatSelection': (context) => const ChatSelection(),
         '/ChatPage': (context) => const ChatPage(),
-        '/RideList': (context) => const RideList(),
+        '/RideList': (context) => RideList(),
         '/LogIn': ((context) {
           return SignInScreen(
             actions: [

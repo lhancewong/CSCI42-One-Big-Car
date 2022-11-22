@@ -18,7 +18,7 @@ class _RideHistoryState extends State<RideHistory> {
 
   String getData() {
     final User user = auth.currentUser!;
-    return user.displayName!;
+    return user.displayName ?? 'Anon User';
   }
 
   @override
