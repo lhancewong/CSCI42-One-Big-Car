@@ -6,11 +6,16 @@ class RideList extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+
     Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
-    Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
+
     final Size buttonSize = Size(screenWidth * 0.45, screenHeight * 0.1);
+
     final ButtonStyle style = ElevatedButton.styleFrom(
-        fixedSize: buttonSize, textStyle: const TextStyle(fontSize: 20));
+      fixedSize: buttonSize,
+      textStyle: const TextStyle(fontSize: 20),
+    );
+
     final ButtonStyle addButtonStyle = ElevatedButton.styleFrom(
       fixedSize: buttonSize,
       textStyle: const TextStyle(fontSize: 32),
