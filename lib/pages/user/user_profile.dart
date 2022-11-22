@@ -18,8 +18,8 @@ class _UserProfileState extends State<UserProfile> {
   final database = FirebaseDatabase.instance.ref();
 
   String getData() {
-    final User authUser = auth.currentUser!;
-    return authUser.displayName!;
+    final User user = auth.currentUser!;
+    return user.displayName ?? 'Anon User';
   }
 
   @override
