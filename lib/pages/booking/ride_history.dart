@@ -118,7 +118,7 @@ class _RideHistoryState extends State<RideHistory> {
 }
 
 class RideInfo extends StatefulWidget {
-  RideInfo({
+  const RideInfo({
     super.key,
     required this.isMulti,
     required this.paidFor,
@@ -127,7 +127,7 @@ class RideInfo extends StatefulWidget {
 
   final bool isMulti;
   final DateTime date;
-  bool paidFor;
+  final bool paidFor;
 
   @override
   State<RideInfo> createState() => _RideInfoState();
@@ -164,7 +164,6 @@ class _RideInfoState extends State<RideInfo> {
                       style: const TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 12,
-                        fontFamily: 'Nunito',
                         color: Colors.black,
                       ),
                     ),
@@ -173,7 +172,6 @@ class _RideInfoState extends State<RideInfo> {
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 24,
-                        fontFamily: 'Nunito',
                         color: Colors.black,
                       ),
                     )
@@ -193,7 +191,6 @@ class _RideInfoState extends State<RideInfo> {
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 11,
-                          fontFamily: 'Nunito',
                           color: widget.paidFor ? Colors.green : Colors.red,
                         )),
                     Text(
@@ -202,7 +199,6 @@ class _RideInfoState extends State<RideInfo> {
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 11,
-                        fontFamily: 'Nunito',
                         color: widget.paidFor ? Colors.green : Colors.red,
                       ),
                     )

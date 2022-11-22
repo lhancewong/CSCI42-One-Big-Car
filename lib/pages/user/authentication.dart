@@ -34,12 +34,9 @@ class AuthFunc extends StatelessWidget {
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 26,
-                  fontFamily: 'Nunito',
                 )),
             onPressed: () {
-              !loggedIn
-                  ? Navigator.of(context).pushNamed('/LogIn')
-                  : signOut();
+              !loggedIn ? Navigator.of(context).pushNamed('/LogIn') : signOut();
             },
           ),
         ),
@@ -47,29 +44,26 @@ class AuthFunc extends StatelessWidget {
             visible: loggedIn,
             child: Padding(
               padding: const EdgeInsets.only(left: 24, bottom: 8),
-              
               child: ElevatedButton(
                   style: ButtonStyle(
                     padding: const MaterialStatePropertyAll(
-                      EdgeInsets.fromLTRB(100, 15, 100, 15)),
-                  backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
-                  foregroundColor:
-                    const MaterialStatePropertyAll<Color>(Colors.black),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(13),
-                      side: BorderSide(color: obcGrey))),
+                        EdgeInsets.fromLTRB(100, 15, 100, 15)),
+                    backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
+                    foregroundColor:
+                        const MaterialStatePropertyAll<Color>(Colors.black),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(13),
+                            side: BorderSide(color: obcGrey))),
                   ),
                   onPressed: () {
                     Navigator.of(context).pushNamed('/UserProfile');
                   },
-                  child: const Text(
-                    'Start',
-                    style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26,
-                  fontFamily: 'Nunito',
-                ))),
+                  child: const Text('Start',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 26,
+                      ))),
             ))
       ],
     );

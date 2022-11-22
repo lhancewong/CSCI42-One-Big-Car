@@ -30,6 +30,17 @@ class _UserProfileState extends State<UserProfile> {
     Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
     Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
 
+    ButtonStyle buttonStyle = ButtonStyle(
+      padding:
+          const MaterialStatePropertyAll(EdgeInsets.fromLTRB(90, 15, 90, 15)),
+      backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
+      foregroundColor: const MaterialStatePropertyAll<Color>(Colors.black),
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(13),
+              side: BorderSide(color: obcGrey))),
+    );
+
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -65,7 +76,6 @@ class _UserProfileState extends State<UserProfile> {
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 20,
-                    fontFamily: 'Nunito',
                     color: obcBlue,
                   ),
                 ),
@@ -90,7 +100,6 @@ class _UserProfileState extends State<UserProfile> {
                     height: 1,
                     fontWeight: FontWeight.w800,
                     fontSize: 32,
-                    fontFamily: 'Nunito',
                     color: Colors.white,
                   ),
                 ),
@@ -100,7 +109,6 @@ class _UserProfileState extends State<UserProfile> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20,
-                    fontFamily: 'Nunito',
                     color: Colors.white,
                   ),
                 ),
@@ -132,7 +140,6 @@ class _UserProfileState extends State<UserProfile> {
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 24,
-                            fontFamily: 'Nunito',
                             color: Colors.black,
                           ),
                         ),
@@ -142,22 +149,11 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 const SizedBox(height: 50),
                 ElevatedButton(
-                  style: ButtonStyle(
-                    padding: const MaterialStatePropertyAll(
-                        EdgeInsets.fromLTRB(90, 15, 90, 15)),
-                    backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
-                    foregroundColor:
-                        const MaterialStatePropertyAll<Color>(Colors.black),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(13),
-                            side: BorderSide(color: obcGrey))),
-                  ),
+                  style: buttonStyle,
                   child: Text("Save",
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w700,
                         fontSize: 26,
-                        fontFamily: 'Nunito',
                         color: obcBlue,
                       )),
                   onPressed: () async {
@@ -175,22 +171,11 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
-                  style: ButtonStyle(
-                    padding: const MaterialStatePropertyAll(
-                        EdgeInsets.fromLTRB(90, 15, 90, 15)),
-                    backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
-                    foregroundColor:
-                        const MaterialStatePropertyAll<Color>(Colors.black),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(13),
-                            side: BorderSide(color: obcGrey))),
-                  ),
+                  style: buttonStyle,
                   child: Text("Home",
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w700,
                         fontSize: 26,
-                        fontFamily: 'Nunito',
                         color: obcBlue,
                       )),
                   onPressed: () async {

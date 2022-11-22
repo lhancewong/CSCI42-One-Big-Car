@@ -12,11 +12,16 @@ class _RideListState extends State<RideList> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+
     Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
-    Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
+
     final Size buttonSize = Size(screenWidth * 0.45, screenHeight * 0.1);
+
     final ButtonStyle style = ElevatedButton.styleFrom(
-        fixedSize: buttonSize, textStyle: const TextStyle(fontSize: 20));
+      fixedSize: buttonSize,
+      textStyle: const TextStyle(fontSize: 20),
+    );
+
     final ButtonStyle addButtonStyle = ElevatedButton.styleFrom(
       fixedSize: buttonSize,
       textStyle: const TextStyle(fontSize: 32),
@@ -37,14 +42,12 @@ class _RideListState extends State<RideList> {
                     height: 1,
                     fontWeight: FontWeight.w800,
                     fontSize: 46,
-                    fontFamily: 'Nunito',
                     color: Colors.white,
                   )),
               Text('April 20, 2020',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20,
-                    fontFamily: 'Nunito',
                     color: Colors.white,
                   )),
               SizedBox(height: 10),
@@ -105,7 +108,6 @@ class _RideListEntriesState extends State<RideListEntries> {
               widget.origin,
               style: const TextStyle(
                 fontWeight: FontWeight.w800,
-                fontFamily: 'Nunito',
                 color: Colors.black,
               ),
             ),
@@ -113,7 +115,6 @@ class _RideListEntriesState extends State<RideListEntries> {
               widget.destination,
               style: const TextStyle(
                 fontWeight: FontWeight.w800,
-                fontFamily: 'Nunito',
                 color: Colors.black,
               ),
             ),
