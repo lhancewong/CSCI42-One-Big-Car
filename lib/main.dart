@@ -8,17 +8,20 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:one_big_car/pages/ride_list.dart';
+import 'package:one_big_car/pages/booking/ride_list.dart';
 import 'package:one_big_car/authentication/login_page.dart';
-import 'package:one_big_car/pages/user_homepage.dart';
-import 'package:one_big_car/pages/user_profile.dart';
+import 'package:one_big_car/pages/user/user_homepage.dart';
 import 'package:one_big_car/pages/landing_page.dart';
-import 'package:one_big_car/pages/single_booking.dart';
-import 'package:one_big_car/pages/ride_history.dart';
-import 'package:one_big_car/pages/chat_selection.dart';
-import 'package:one_big_car/pages/chat_page.dart';
 import 'package:one_big_car/pages/location.dart';
 import 'package:one_big_car/authentication/register_page.dart';
+import 'package:one_big_car/pages/booking/ride_list.dart';
+import 'package:one_big_car/pages/user/user_homepage.dart';
+import 'package:one_big_car/pages/user/user_profile.dart';
+import 'package:one_big_car/pages/booking/single_booking.dart';
+import 'package:one_big_car/pages/booking/ride_history.dart';
+import 'package:one_big_car/pages/chat/chat_selection.dart';
+import 'package:one_big_car/pages/chat/chat_page.dart';
+import 'package:one_big_car/pages/passenger_list.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +48,7 @@ class MyApp extends StatelessWidget {
       title: 'One Big Car!',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Nunito',
       ),
       initialRoute: '/',
       routes: {

@@ -5,14 +5,14 @@ import 'package:intl/intl.dart';
 
 const List<String> list = <String>['HEAD', 'PASSENGER'];
 
-class RideHistory extends StatefulWidget {
-  const RideHistory({super.key});
+class PassengerList extends StatefulWidget {
+  const PassengerList({super.key});
 
   @override
-  State<RideHistory> createState() => _RideHistoryState();
+  State<PassengerList> createState() => _PassengerList();
 }
 
-class _RideHistoryState extends State<RideHistory> {
+class _PassengerList extends State<PassengerList> {
   String dropdownValue = list.first;
   final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -39,7 +39,7 @@ class _RideHistoryState extends State<RideHistory> {
             top: screenHeight * 0.12,
           ),
           child: Text(
-            'Ride History',
+            'Passengers',
             style: TextStyle(
               fontWeight: FontWeight.w800,
               fontSize: 30,

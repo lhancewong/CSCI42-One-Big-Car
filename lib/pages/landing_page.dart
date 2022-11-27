@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart'
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:one_big_car/main.dart';
-import 'package:one_big_car/authentication/authentication.dart';
+import 'package:one_big_car/pages/user/authentication.dart';
 
 class Landing extends StatefulWidget {
   const Landing({super.key});
@@ -13,12 +13,10 @@ class Landing extends StatefulWidget {
 }
 
 class _LandingState extends State<Landing> {
-
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-  
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -51,7 +49,6 @@ class _LandingState extends State<Landing> {
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 36,
-                    fontFamily: 'Nunito',
                     color: Color.fromRGBO(33, 41, 239, 1),
                   ),
                 ),
@@ -63,17 +60,16 @@ class _LandingState extends State<Landing> {
                     height: 1,
                     fontWeight: FontWeight.w800,
                     fontSize: 70,
-                    fontFamily: 'Nunito',
                     color: Colors.white,
                   ),
                 ),
                 const Image(
-                    image: AssetImage('assets/car.png'),
+                  image: AssetImage('assets/car.png'),
                 ),
                 const SizedBox(height: 10),
                 Consumer<ApplicationState>(
                   builder: (context, appState, _) => AuthFunc(
-                    loggedIn: appState.loggedIn,
+                      loggedIn: appState.loggedIn,
                       signOut: () {
                         FirebaseAuth.instance.signOut();
                       }),
