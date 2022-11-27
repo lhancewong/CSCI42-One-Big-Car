@@ -21,10 +21,6 @@ class _LogInState extends State<LogIn> {
       Fluttertoast.showToast(msg: "Password is required.");
     } else {
       saveInfo();
-      Navigator.pushNamed(context, '/UserProfile', arguments: <String, String>{
-        'email': emailTextController.text,
-        'Password': passwordTextController.text,
-      });
     }
   }
 
@@ -33,8 +29,7 @@ class _LogInState extends State<LogIn> {
         .signInWithEmailAndPassword(
       email: emailTextController.text.trim(),
       password: passwordTextController.text.trim(),
-    )
-        .catchError((msg) {
+    ).catchError((msg) {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Error: " + msg.toString());
     })).user;

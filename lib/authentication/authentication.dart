@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthFunc extends StatelessWidget {
   const AuthFunc({
@@ -16,12 +17,58 @@ class AuthFunc extends StatelessWidget {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 20, bottom: 8),
+        ElevatedButton(
+          style: ButtonStyle(
+            padding: const MaterialStatePropertyAll(
+                EdgeInsets.fromLTRB(80, 15, 80, 15)),
+            backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
+            foregroundColor:
+                const MaterialStatePropertyAll<Color>(Colors.black),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(13),
+                    side: BorderSide(color: obcGrey))),
+          ),
+          child: Text(!loggedIn ? 'Log-in' : 'Sign-out',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 26,
+                fontFamily: 'Nunito',
+              )),
+          onPressed: () {
+            !loggedIn ? Navigator.of(context).pushNamed('/LogIn') : signOut();
+          },
+        ),
+        Visibility(
+          visible: !loggedIn,
+          child: TextButton(
+            onPressed: () async {
+              try {
+                final userCredential =
+                    await FirebaseAuth.instance.signInAnonymously();
+                print("Signed in with temporary account.");
+                Navigator.of(context).pushNamed('/UserProfile');
+              } on FirebaseAuthException catch (e) {
+                switch (e.code) {
+                  case "operation-not-allowed":
+                    print(
+                        "Anonymous auth hasn't been enabled for this project.");
+                    break;
+                  default:
+                    print("Unknown error.");
+                }
+              }
+            },
+            child: const Text('Login anonymously'),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Visibility(
+          visible: loggedIn,
           child: ElevatedButton(
             style: ButtonStyle(
               padding: const MaterialStatePropertyAll(
-                  EdgeInsets.fromLTRB(80, 15, 80, 15)),
+                  EdgeInsets.fromLTRB(100, 15, 100, 15)),
               backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
               foregroundColor:
                   const MaterialStatePropertyAll<Color>(Colors.black),
@@ -34,12 +81,9 @@ class AuthFunc extends StatelessWidget {
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 26,
-                  fontFamily: 'Nunito',
                 )),
             onPressed: () {
-              !loggedIn
-                  ? Navigator.of(context).pushNamed('/LogIn')
-                  : signOut();
+              !loggedIn ? Navigator.of(context).pushNamed('/LogIn') : signOut();
             },
           ),
         ),
@@ -47,29 +91,26 @@ class AuthFunc extends StatelessWidget {
             visible: loggedIn,
             child: Padding(
               padding: const EdgeInsets.only(left: 24, bottom: 8),
-              
               child: ElevatedButton(
                   style: ButtonStyle(
                     padding: const MaterialStatePropertyAll(
-                      EdgeInsets.fromLTRB(100, 15, 100, 15)),
-                  backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
-                  foregroundColor:
-                    const MaterialStatePropertyAll<Color>(Colors.black),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(13),
-                      side: BorderSide(color: obcGrey))),
+                        EdgeInsets.fromLTRB(100, 15, 100, 15)),
+                    backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
+                    foregroundColor:
+                        const MaterialStatePropertyAll<Color>(Colors.black),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(13),
+                            side: BorderSide(color: obcGrey))),
                   ),
                   onPressed: () {
                     Navigator.of(context).pushNamed('/UserProfile');
                   },
-                  child: const Text(
-                    'Start',
-                    style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26,
-                  fontFamily: 'Nunito',
-                ))),
+                  child: const Text('Start',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 26,
+                      ))),
             ))
       ],
     );

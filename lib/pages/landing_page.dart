@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart'
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:one_big_car/main.dart';
-import 'package:one_big_car/pages/user/authentication.dart';
+import 'package:one_big_car/authentication/authentication.dart';
 
 class Landing extends StatefulWidget {
   const Landing({super.key});

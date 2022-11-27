@@ -44,15 +44,13 @@ class _RegisterState extends State<Register> {
 
   saveInfo() async {
     final User? firebaseUser = (await fAuth
-            .createUserWithEmailAndPassword(
+        .signInWithEmailAndPassword(
       email: emailTextController.text.trim(),
       password: passwordTextController.text.trim(),
-    )
-            .catchError((msg) {
+    ).catchError((msg) {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Error: " + msg.toString());
-    }))
-        .user;
+    })).user;
 
     if (firebaseUser != null) {
       Map userMap = {
@@ -106,6 +104,7 @@ class _RegisterState extends State<Register> {
                   const SizedBox(height: 20),
                   TextField(
                     keyboardType: TextInputType.emailAddress,
+                    autocorrect: false,
                     enableSuggestions: false,
                     controller: emailTextController,
                     style: const TextStyle(fontSize: 16),
