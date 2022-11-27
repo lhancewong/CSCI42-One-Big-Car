@@ -32,5 +32,3 @@ subprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-manifestPlaceholders = [API_KEY: "$System.env.API_KEY"]

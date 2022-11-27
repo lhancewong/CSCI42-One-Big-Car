@@ -82,11 +82,23 @@ class _SingleBookingState extends State<SingleBooking> {
                   children: [
                     const SizedBox(height: 20),
                     // Pick-up area textfield
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/Location');
+                        },
+                        child: const Text(
+                          'Select Pick-up Area',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ),
+                    ),
                     TextField(
                       controller: TextController1,
                       style: TextStyle(fontSize:14),
                       decoration: InputDecoration(
-                        labelText: 'Pick-up Area',
+                        hintText: "Pick-up Area",
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
                             color: Color.fromRGBO(33, 41, 239, 1),

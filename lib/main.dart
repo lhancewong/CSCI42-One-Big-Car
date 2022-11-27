@@ -17,6 +17,7 @@ import 'package:one_big_car/pages/single_booking.dart';
 import 'package:one_big_car/pages/ride_history.dart';
 import 'package:one_big_car/pages/chat_selection.dart';
 import 'package:one_big_car/pages/chat_page.dart';
+import 'package:one_big_car/pages/location.dart';
 import 'package:one_big_car/authentication/register_page.dart';
 
 Future<void> main() async {
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
         '/ChatSelection': (context) => const ChatSelection(),
         '/ChatPage': (context) => const ChatPage(),
         '/RideList': (context) => const RideList(),
+        '/Location' : (context) => const Location(),
         '/Register': (context) => const Register(),
         '/LogIn': (context) => const LogIn(),
         /* ((context) {
