@@ -31,6 +31,7 @@ env.g.dart
 **/ios/Flutter/.last_build_id
 **/ios/Flutter/Debug.xcconfig
 **/lib/firebase_options.dart
+**/android/app/google-services.json
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
