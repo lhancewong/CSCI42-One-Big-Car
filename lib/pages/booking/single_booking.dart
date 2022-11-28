@@ -1,6 +1,10 @@
+import 'dart:ffi';
+
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:one_big_car/global/global.dart';
 
 class SingleBooking extends StatefulWidget {
   const SingleBooking({super.key});
@@ -10,7 +14,9 @@ class SingleBooking extends StatefulWidget {
 }
 
 class _SingleBookingState extends State<SingleBooking> {
-  final database = FirebaseDatabase.instance.ref();
+  Map data = {};
+  List sourceData = [];
+  List destinationData = [];
 
   TextEditingController TextController1 = TextEditingController();
   TextEditingController TextController2 = TextEditingController();
@@ -18,7 +24,7 @@ class _SingleBookingState extends State<SingleBooking> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime selectedDate;
+    DateTime? selectedDate;
 
     double screenHeight = MediaQuery.of(context).size.height;
 
@@ -95,29 +101,47 @@ class _SingleBookingState extends State<SingleBooking> {
                   children: [
                     const SizedBox(height: 20),
                     // Pick-up area textfield
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed('/Location');
-                        },
-                        child: const Text(
-                          'Select Pick-up Area',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
-                    ),
                     TextField(
                       controller: TextController1,
+                      readOnly: true,
                       style: const TextStyle(fontSize: 14),
                       decoration: textInputDeco('Pick-up Area'),
+                      onTap: () async {
+                        final data =
+                            await Navigator.pushNamed(context, '/Location')
+                                as Map;
+
+                        setState(() {
+                          TextController1.text = data['title'];
+                          sourceData = [
+                            data['title'],
+                            data['latitude'],
+                            data['longitude']
+                          ];
+                        });
+                      },
                     ),
                     const SizedBox(height: 20),
                     // Drop-off area textfield
                     TextField(
                       controller: TextController2,
+                      readOnly: true,
                       style: const TextStyle(fontSize: 14),
                       decoration: textInputDeco('Drop-off Area'),
+                      onTap: () async {
+                        final data =
+                            await Navigator.pushNamed(context, '/Location')
+                                as Map;
+
+                        setState(() {
+                          TextController2.text = data['title'];
+                          destinationData = [
+                            data['title'],
+                            data['latitude'],
+                            data['longitude']
+                          ];
+                        });
+                      },
                     ),
                     const SizedBox(height: 20),
                     // Select a date textfield
@@ -185,16 +209,54 @@ class _SingleBookingState extends State<SingleBooking> {
               // Submit Single Ride Button
               child: TextButton(
                 onPressed: () async {
-                final booking = <String, dynamic>{
-                      'pick-up': TextController1.text,
-                      'drop-off': TextController2.text
+                  if (sourceData.isEmpty) {
+                    Fluttertoast.showToast(
+                        msg: "Please select a Pick-up Area.");
+                  } else if (destinationData.isEmpty) {
+                    Fluttertoast.showToast(
+                        msg: "Please select a Drop-off Area.");
+                  } else if (selectedDate != null) {
+                    Fluttertoast.showToast(
+                        msg: "Please select a Date and Time.");
+                  } else {
+                    Map<String, Object> sourceBookingMap = {
+                      "title": sourceData[0],
+                      "latitude": sourceData[1],
+                      "longitude": sourceData[2],
                     };
-                    database
-                        .child('bookings')
-                        .push()
-                        .update(booking)
-                        .then((_) => print('Booking created!'))
-                        .catchError((error) => print('Error: $error'));
+
+                    Map<String, Object> destinationBookingMap = {
+                      "title": destinationData[0],
+                      "latitude": destinationData[1],
+                      "longitude": destinationData[2],
+                    };
+
+                    Map<String, dynamic> bookingMap = {
+                      "datetime": selectedDate,
+                      "notes": TextController3.text,
+                    };
+
+                    DatabaseReference sourceBookingRef =
+                        FirebaseDatabase.instance.ref().child("bookings");
+                    sourceBookingRef
+                        .child(currentFirebaseUser!.uid)
+                        .child("source")
+                        .update(sourceBookingMap);
+
+                    DatabaseReference destinationBookingRef =
+                        FirebaseDatabase.instance.ref().child("bookings");
+                    destinationBookingRef
+                        .child(currentFirebaseUser!.uid)
+                        .child("destination")
+                        .update(destinationBookingMap);
+
+                    DatabaseReference bookingRef =
+                        FirebaseDatabase.instance.ref().child("bookings");
+                    bookingRef.child(currentFirebaseUser!.uid).update(bookingMap);
+
+                    Fluttertoast.showToast(
+                        msg: "Booking Information has been saved.");
+                  }
                 },
                 child: const Text(
                   'Submit Single-ride Request',

@@ -20,19 +20,23 @@ class Location extends StatefulWidget {
 
 final kGoogleApiKey = mapKey;
 final homeScaffoldKey = GlobalKey<ScaffoldState>();
+
 class _LocationState extends State<Location> {
   final database = FirebaseDatabase.instance.ref();
-  // final Completer<GoogleMapController> _controllerGoogleMap = Completer();
-  GoogleMapController? newGoogleMapController;
-  late CameraPosition _cameraPosition;
-  Set<Marker> markersList = {};
-
-  late GoogleMapController googleMapController;
-
-  final Mode _mode = Mode.overlay;
 
   static const LatLng sourceLocation = LatLng(14.63989835, 121.078195189384);
   static const LatLng destination = LatLng(14.651494, 121.074615);
+
+  static const CameraPosition _cameraPosition =
+      CameraPosition(target: sourceLocation, zoom: 17.0);
+  Set<Marker> markersList = {
+    const Marker(
+      markerId: MarkerId("0"),
+      position: sourceLocation,
+    ),
+  };
+  late GoogleMapController googleMapController;
+  final Mode _mode = Mode.overlay;
 
   List<LatLng> polylineCoordinates = [];
 
@@ -90,87 +94,123 @@ class _LocationState extends State<Location> {
     }
   }
 
-  @override
+  /* @override
   void initState() {
     getPolyPoints();
     super.initState();
-    _cameraPosition = CameraPosition(target: sourceLocation, zoom: 17);
-  }
-
-  late GoogleMapController _controllerGoogleMap;
+  } */
 
   @override
   Widget build(BuildContext context) {
+
     double screenHeight = MediaQuery.of(context).size.height;
 
     Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
     Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
 
     return Scaffold(
-          resizeToAvoidBottomInset: false,
+        key: homeScaffoldKey,
+        resizeToAvoidBottomInset: false,
+        backgroundColor: obcBlue,
+        appBar: AppBar(
+          title: const Text('Location',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                fontFamily: 'Nunito',
+                color: Colors.white,
+              )),
           backgroundColor: obcBlue,
-          body: Stack(children: <Widget>[
-            GoogleMap(
-              mapType: MapType.normal,
-              myLocationButtonEnabled: true,
-              onMapCreated: (GoogleMapController mapController) {
-                _controllerGoogleMap = mapController;
-              },
-              initialCameraPosition: _cameraPosition,
-              polylines: {
-                Polyline(
-                  polylineId: PolylineId("route"),
-                  points: polylineCoordinates,
-                  color: obcBlue,
-                  width: 6,
-                )
-              },
-              markers: {
-                const Marker(
-                  markerId: MarkerId("source"),
-                  position: sourceLocation,
-                ),
-                const Marker(
-                  markerId: MarkerId("destination"),
-                  position: destination,
-                ),
-              },
-            ),
-            Positioned(
-              top: 100,
-              left: 10,
-              right: 20,
-              child: GestureDetector(
-                onTap: _handlePressButton,
-                child: Container(
-                  height: 50,
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(children: [
-                    Icon(Icons.location_on,
-                        size: 25, color: Theme.of(context).primaryColor),
-                    SizedBox(width: 5),
-                    //here we show the address on the top
-                    /* Expanded(
-                      child: Text(
-                        '${locationController.pickPlaceMark.name ?? ''} ${locationController.pickPlaceMark.locality ?? ''} '
-                        '${locationController.pickPlaceMark.postalCode ?? ''} ${locationController.pickPlaceMark.country ?? ''}',
-                        style: TextStyle(fontSize: 20),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+        ),
+        body: Stack(children: <Widget>[
+          GoogleMap(
+            mapType: MapType.normal,
+            myLocationButtonEnabled: true,
+            onMapCreated: (GoogleMapController mapController) {
+              googleMapController = mapController;
+            },
+            initialCameraPosition: _cameraPosition,
+            polylines: {
+              Polyline(
+                polylineId: PolylineId("route"),
+                points: polylineCoordinates,
+                color: obcBlue,
+                width: 6,
+              )
+            },
+            markers: markersList,
+          ),
+          Positioned(
+            top: 50,
+            left: 10,
+            right: 20,
+            child: GestureDetector(
+              onTap: _handlePressButton,
+              child: Container(
+                height: 50,
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(children: [
+                  Icon(Icons.location_on,
+                      size: 25, color: Theme.of(context).primaryColor),
+                  SizedBox(width: 5),
+                  //here we show the address on the top
+                  Expanded(
+                    child: Text(
+                      markersList.elementAt(0).infoWindow.title.toString() ==
+                              "null"
+                          ? "Search Location"
+                          : markersList
+                              .elementAt(0)
+                              .infoWindow
+                              .title
+                              .toString(),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Nunito',
                       ),
-                    ), */
-                    SizedBox(width: 10),
-                    Icon(Icons.search,
-                        size: 25,
-                        color: Theme.of(context).textTheme.bodyText1!.color),
-                  ]),
-                ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Icon(Icons.search,
+                      size: 25,
+                      color: Theme.of(context).textTheme.bodyText1!.color),
+                ]),
               ),
             ),
-          ]));
+          ),
+          Positioned(
+            bottom: 50,
+            left: 10,
+            right: 20,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context, <String, Object>{
+                  'latitude': markersList.elementAt(0).position.latitude,
+                  'longitude': markersList.elementAt(0).position.longitude,
+                  'title': markersList.elementAt(0).infoWindow.title.toString(),
+                });
+              },
+              child: Container(
+                height: 50,
+                padding: EdgeInsets.symmetric(horizontal: 101, vertical: 10),
+                decoration: BoxDecoration(
+                    color: obcBlue, borderRadius: BorderRadius.circular(10)),
+                child: const Text('Choose Location',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontFamily: 'Nunito',
+                      color: Colors.white,
+                    )),
+              ),
+            ),
+          ),
+        ]));
   }
 
   Future<void> _handlePressButton() async {
@@ -184,15 +224,15 @@ class _LocationState extends State<Location> {
         types: [""],
         decoration: InputDecoration(
             hintText: 'Search',
-            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: Colors.white))),
-        components: [Component(Component.country,"ph")]);
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide(color: Colors.white))),
+        components: [Component(Component.country, "ph")]);
 
-
-    displayPrediction(p!,homeScaffoldKey.currentState);
+    displayPrediction(p!, homeScaffoldKey.currentState);
   }
 
-  void onError(PlacesAutocompleteResponse response){
-
+  void onError(PlacesAutocompleteResponse response) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       elevation: 0,
       behavior: SnackBarBehavior.floating,
@@ -207,12 +247,11 @@ class _LocationState extends State<Location> {
     // homeScaffoldKey.currentState!.showSnackBar(SnackBar(content: Text(response.errorMessage!)));
   }
 
-  Future<void> displayPrediction(Prediction p, ScaffoldState? currentState) async {
-
+  Future<void> displayPrediction(
+      Prediction p, ScaffoldState? currentState) async {
     GoogleMapsPlaces places = GoogleMapsPlaces(
-      apiKey: kGoogleApiKey,
-      apiHeaders: await const GoogleApiHeaders().getHeaders()
-    );
+        apiKey: kGoogleApiKey,
+        apiHeaders: await const GoogleApiHeaders().getHeaders());
 
     PlacesDetailsResponse detail = await places.getDetailsByPlaceId(p.placeId!);
 
@@ -220,11 +259,14 @@ class _LocationState extends State<Location> {
     final lng = detail.result.geometry!.location.lng;
 
     markersList.clear();
-    markersList.add(Marker(markerId: const MarkerId("0"),position: LatLng(lat, lng),infoWindow: InfoWindow(title: detail.result.name)));
+    markersList.add(Marker(
+        markerId: const MarkerId("0"),
+        position: LatLng(lat, lng),
+        infoWindow: InfoWindow(title: detail.result.name)));
 
     setState(() {});
 
-     googleMapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14.0));
-
+    googleMapController
+        .animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14.0));
   }
 }
