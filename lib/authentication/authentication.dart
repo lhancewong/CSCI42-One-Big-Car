@@ -64,34 +64,8 @@ class AuthFunc extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Visibility(
-          visible: loggedIn,
-          child: ElevatedButton(
-            style: ButtonStyle(
-              padding: const MaterialStatePropertyAll(
-                  EdgeInsets.fromLTRB(100, 15, 100, 15)),
-              backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
-              foregroundColor:
-                  const MaterialStatePropertyAll<Color>(Colors.black),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(13),
-                      side: BorderSide(color: obcGrey))),
-            ),
-            child: Text(!loggedIn ? 'Log-in' : 'Sign-out',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26,
-                )),
-            onPressed: () {
-              !loggedIn ? Navigator.of(context).pushNamed('/LogIn') : signOut();
-            },
-          ),
-        ),
-        Visibility(
             visible: loggedIn,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 24, bottom: 8),
-              child: ElevatedButton(
+            child: ElevatedButton(
                   style: ButtonStyle(
                     padding: const MaterialStatePropertyAll(
                         EdgeInsets.fromLTRB(100, 15, 100, 15)),
@@ -111,7 +85,7 @@ class AuthFunc extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 26,
                       ))),
-            ))
+            )
       ],
     );
   }
