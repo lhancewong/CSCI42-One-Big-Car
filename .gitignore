@@ -29,6 +29,8 @@ env.g.dart
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
+**/ios/Flutter/Debug.xcconfig
+**/lib/firebase_options.dart
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
