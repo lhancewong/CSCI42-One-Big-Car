@@ -7,7 +7,7 @@
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.706559122677-68htudsp8tr6nfh78t9ohlirnvi2oim4</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCuWXzgUzLmThKTWUXqexWXbfjcZtVaHIo</string>
+	<string>AIzaSyAzO37uvKxZp64uZX15Q1C1fCSmP-Rljps</string>
 	<key>GCM_SENDER_ID</key>
 	<string>706559122677</string>
 	<key>PLIST_VERSION</key>
@@ -30,5 +30,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:706559122677:ios:e0f6dabe23a04cd09fb9bc</string>
+	<key>DATABASE_URL</key>
+	<string>https://one-big-car-d8e4e-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

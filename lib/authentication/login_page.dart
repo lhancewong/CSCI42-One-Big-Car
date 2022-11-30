@@ -26,13 +26,15 @@ class _LogInState extends State<LogIn> {
 
   saveInfo() async {
     final User? firebaseUser = (await fAuth
-        .signInWithEmailAndPassword(
+            .signInWithEmailAndPassword(
       email: emailTextController.text.trim(),
       password: passwordTextController.text.trim(),
-    ).catchError((msg) {
+    )
+            .catchError((msg) {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Error: " + msg.toString());
-    })).user;
+    }))
+        .user;
 
     if (firebaseUser != null) {
       currentFirebaseUser = firebaseUser;

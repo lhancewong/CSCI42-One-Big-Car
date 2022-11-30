@@ -16,6 +16,22 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   String dropdownValue = list.first;
+  String name = "Poseidon";
+  String yearCourse = "0 BS AA";
+
+  getInfo() async {
+    final ref = FirebaseDatabase.instance.ref();
+    final User user = currentFirebaseUser!;
+    final snapshot1 = await ref.child('users/$user/first_name').get();
+    final snapshot2 = await ref.child('users/$user/year').get();
+    final snapshot3 = await ref.child('users/$user/course').get();
+    if (snapshot1.exists) {
+      name = snapshot1.value.toString();
+    }
+    if (snapshot2.exists && snapshot3.exists) {
+      yearCourse = snapshot2.value.toString() + " " + snapshot3.value.toString();
+    }
+  }
 
   saveInfo() {
     Map userMap = {
@@ -34,150 +50,151 @@ class _UserProfileState extends State<UserProfile> {
     }
   }
 
-    @override
-    Widget build(BuildContext context) {
-      double screenWidth = MediaQuery.of(context).size.width;
-      double screenHeight = MediaQuery.of(context).size.height;
+  @override
+  Widget build(BuildContext context) {
+    getInfo();
 
-      Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
-      Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
-      ButtonStyle buttonStyle = ButtonStyle(
-        padding:
-            const MaterialStatePropertyAll(EdgeInsets.fromLTRB(90, 15, 90, 15)),
-        backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
-        foregroundColor: const MaterialStatePropertyAll<Color>(Colors.black),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(13),
-                side: BorderSide(color: obcGrey))),
-      );
+    Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
+    Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
 
-      return Scaffold(
-        backgroundColor: Colors.white,
-        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-        floatingActionButton: BackButton(
-          color: obcBlue,
-        ),
-        body: Stack(
-          children: [
-            Align(
+    ButtonStyle buttonStyle = ButtonStyle(
+      padding:
+          const MaterialStatePropertyAll(EdgeInsets.fromLTRB(90, 15, 90, 15)),
+      backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
+      foregroundColor: const MaterialStatePropertyAll<Color>(Colors.black),
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(13),
+              side: BorderSide(color: obcGrey))),
+    );
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      floatingActionButton: BackButton(
+        color: obcBlue,
+      ),
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: screenHeight * 0.75,
               alignment: Alignment.bottomCenter,
-              child: Container(
-                height: screenHeight * 0.75,
-                alignment: Alignment.bottomCenter,
-                decoration: BoxDecoration(
-                  border: Border.all(color: obcBlue),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50),
-                  ),
-                  color: obcBlue,
+              decoration: BoxDecoration(
+                border: Border.all(color: obcBlue),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(50),
+                  topRight: Radius.circular(50),
                 ),
+                color: obcBlue,
               ),
             ),
-            Container(
-              margin: const EdgeInsets.all(40.0),
-              alignment: Alignment.center,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'User Profile',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20,
+          ),
+          Container(
+            margin: const EdgeInsets.all(40.0),
+            alignment: Alignment.center,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'User Profile',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: obcBlue,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  width: screenWidth * 0.65,
+                  height: screenWidth * 0.65,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: obcBlue,
+                      width: screenWidth * 0.020,
+                    ),
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  name,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    height: 1,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 32,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  yearCourse,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: obcBlue),
+                      borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      color: Colors.white),
+                  child: DropdownButton<String>(
+                    value: dropdownValue,
+                    underline: Container(color: Colors.white),
+                    isExpanded: true,
+                    icon: Icon(
+                      Icons.expand_more,
                       color: obcBlue,
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    width: screenWidth * 0.65,
-                    height: screenWidth * 0.65,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: obcBlue,
-                        width: screenWidth * 0.020,
-                      ),
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  Text(
-                    "getData()",
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      height: 1,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 32,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  const Text(
-                    'IV BS CS',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: obcBlue),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16)),
-                        color: Colors.white),
-                    child: DropdownButton<String>(
-                      value: dropdownValue,
-                      underline: Container(color: Colors.white),
-                      isExpanded: true,
-                      icon: Icon(
-                        Icons.expand_more,
-                        color: obcBlue,
-                      ),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownValue = newValue!;
-                        });
-                      },
-                      items: list.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 24,
-                              color: Colors.black,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 50),
-                  ElevatedButton(
-                    style: buttonStyle,
-                    child: Text("Save",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 26,
-                          color: obcBlue,
-                        )),
-                    onPressed: () {
-                      saveInfo();
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownValue = newValue!;
+                      });
                     },
+                    items: list.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 24,
+                            color: Colors.black,
+                          ),
+                        ),
+                      );
+                    }).toList(),
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 50),
+                ElevatedButton(
+                  style: buttonStyle,
+                  child: Text("Save",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 26,
+                        color: obcBlue,
+                      )),
+                  onPressed: () {
+                    saveInfo();
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-      );
-    }
+          ),
+        ],
+      ),
+    );
   }
+}
