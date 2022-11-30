@@ -28,8 +28,8 @@ environment:
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
-dependency_overrides:
-  geolocator_apple: 2.1.0
+# dependency_overrides:
+  # geolocator_apple: 2.1.0
 
 dependencies:
   flutter:
@@ -55,7 +55,7 @@ dependencies:
   flutter_typeahead: ^4.1.1
   flutter_google_places: ^0.3.0
   awesome_snackbar_content: ^0.1.0
-  geolocator: ^9.0.2
+  # geolocator: ^9.0.2
 
 dev_dependencies:
   flutter_test:

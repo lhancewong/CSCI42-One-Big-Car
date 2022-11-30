@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:geolocator/geolocator.dart';
+// import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:one_big_car/global/map_key.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -40,7 +40,7 @@ class _LocationState extends State<Location> {
 
   List<LatLng> polylineCoordinates = [];
 
-  Future<Position> _determinePosition() async {
+  /* Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -76,7 +76,7 @@ class _LocationState extends State<Location> {
     // continue accessing the position of the device.
 
     return await Geolocator.getCurrentPosition();
-  }
+  } */
 
   void getPolyPoints() async {
     PolylinePoints polylinePoints = PolylinePoints();
