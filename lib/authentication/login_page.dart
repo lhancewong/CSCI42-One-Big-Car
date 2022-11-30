@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:one_big_car/global/global.dart';
@@ -13,6 +14,9 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
+
+  String name = "";
+  String yearCourse = "";
 
   validateForm() {
     if (!emailTextController.text.contains("@")) {
@@ -38,8 +42,27 @@ class _LogInState extends State<LogIn> {
 
     if (firebaseUser != null) {
       currentFirebaseUser = firebaseUser;
+      final ref = FirebaseDatabase.instance.ref();
+      String? user = currentFirebaseUser!.uid.toString();
+      final snapshot1 = await ref.child('users/$user/first name').get();
+      final snapshot2 = await ref.child('users/$user/year').get();
+      final snapshot3 = await ref.child('users/$user/course').get();
+      if (snapshot1.exists) {
+        name = snapshot1.value.toString();
+      } else {
+        name = "Poseidon";
+      }
+      if (snapshot2.exists && snapshot3.exists) {
+        yearCourse =
+          snapshot2.value.toString() + " " + snapshot3.value.toString();
+      } else {
+        name = "0 BS AA";
+      }
       await Fluttertoast.showToast(msg: "Login Successful.");
-      Navigator.pushNamed(context, '/UserProfile');
+      Navigator.pushNamed(context, '/UserProfile', arguments: <String, String>{
+        'name': name,
+        'year&course': yearCourse,
+      });
     } else {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Error Occurred during Login.");
@@ -48,6 +71,7 @@ class _LogInState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         floatingActionButton: const Icon(

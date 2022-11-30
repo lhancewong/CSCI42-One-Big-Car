@@ -25,7 +25,7 @@ class _SingleBookingState extends State<SingleBooking> {
   @override
   Widget build(BuildContext context) {
     DateTime? selectedDate;
-
+    
     double screenHeight = MediaQuery.of(context).size.height;
 
     Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
@@ -252,7 +252,9 @@ class _SingleBookingState extends State<SingleBooking> {
 
                     DatabaseReference bookingRef =
                         FirebaseDatabase.instance.ref().child("bookings");
-                    bookingRef.child(currentFirebaseUser!.uid).update(bookingMap);
+                    bookingRef
+                        .child(currentFirebaseUser!.uid)
+                        .update(bookingMap);
 
                     Fluttertoast.showToast(
                         msg: "Booking Information has been saved.");
