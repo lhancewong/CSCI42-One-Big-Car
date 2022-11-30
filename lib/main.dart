@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
         '/RideHistory': (context) => const RideHistory(),
         '/ChatSelection': (context) => const ChatSelection(),
         '/ChatPage': (context) => const ChatPage(),
-        '/RideList': (context) => const RideList(),
+        '/RideList': (context) => RideList(),
         '/Location' : (context) => const Location(),
         '/Register': (context) => const Register(),
         '/LogIn': (context) => const LogIn(),
