@@ -69,7 +69,7 @@ class _RegisterState extends State<Register> {
 
       currentFirebaseUser = firebaseUser;
       Fluttertoast.showToast(msg: "Account has been created.");
-      Navigator.pushNamed(context, '/UserProfile');
+      Navigator.pushNamed(context, '/LogIn');
     } else {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Account has not been created.");
