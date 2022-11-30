@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:one_big_car/global/global.dart';
 
@@ -17,18 +18,30 @@ class UserHomepage extends StatefulWidget {
 ///  it. For now I wont do that.
 class _UserHomepageState extends State<UserHomepage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
+  String name = "Poseidon";
 
-  String? getData() {            
-    currentFirebaseUser = fAuth.currentUser;            
-    if (currentFirebaseUser != null) {
-    return "Username can't be empty";
+  getInfo() async {
+    final ref = FirebaseDatabase.instance.ref();
+    final User user = currentFirebaseUser!;
+    final snapshot = await ref.child('users/$user/first_name').get();
+    if (snapshot.exists) {
+      name = snapshot.value.toString();
+    }
   }
 
+  String? getData() {
+    currentFirebaseUser = fAuth.currentUser;
+    if (currentFirebaseUser != null) {
+      return "Username can't be empty";
+    }
+
     return null;
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {
+    getInfo();
+
     double screenHeight = MediaQuery.of(context).size.height;
 
     Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
@@ -66,7 +79,7 @@ class _UserHomepageState extends State<UserHomepage> {
                           children: [
                             const SizedBox(height: 20),
                             Text(
-                              'Welcome\nback, ${getData()}!',
+                              'Welcome\nback, $name!',
                               style: const TextStyle(
                                 height: 1,
                                 fontWeight: FontWeight.w800,
