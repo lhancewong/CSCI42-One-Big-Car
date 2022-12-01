@@ -15,7 +15,7 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  String dropdownValue = list.first;
+  String? dropdownValue;
 
   Map data = {};
 
@@ -74,10 +74,6 @@ class _UserProfileState extends State<UserProfile> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: BackButton(
-        color: obcBlue,
-      ),
       body: Stack(
         children: [
           Align(
@@ -151,6 +147,13 @@ class _UserProfileState extends State<UserProfile> {
                       borderRadius: const BorderRadius.all(Radius.circular(16)),
                       color: Colors.white),
                   child: DropdownButton<String>(
+                    hint: const Text(
+                      "Choose Role",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                        color: Colors.grey,
+                      )),
                     value: dropdownValue,
                     underline: Container(color: Colors.white),
                     isExpanded: true,
@@ -181,7 +184,7 @@ class _UserProfileState extends State<UserProfile> {
                 const SizedBox(height: 50),
                 ElevatedButton(
                   style: buttonStyle,
-                  child: Text("Save",
+                  child: Text("Home",
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 26,

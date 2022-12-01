@@ -72,12 +72,14 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
 
+    Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
+    Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
+
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-        floatingActionButton: const Icon(
-          Icons.arrow_back,
-          color: Color.fromRGBO(33, 41, 239, 1),
-        ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      floatingActionButton: BackButton(
+        color: obcBlue,
+      ),
         body: Container(
             margin: const EdgeInsets.all(40.0),
             child: Column(
@@ -157,6 +159,9 @@ class _LogInState extends State<LogIn> {
                         )),
                   ),
                   TextButton(
+                    style: const ButtonStyle(
+                      padding: MaterialStatePropertyAll(EdgeInsets.all(1)),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pushNamed('/Register');
                     },
@@ -164,7 +169,7 @@ class _LogInState extends State<LogIn> {
                       'Create a new account',
                       style: TextStyle(fontSize: 12),
                     ),
-                  )
+                  ),
                 ])));
   }
 }
