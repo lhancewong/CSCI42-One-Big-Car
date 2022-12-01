@@ -237,15 +237,17 @@ class _UserHomepageState extends State<UserHomepage> {
           Align(
             alignment: Alignment.bottomCenter,
             child: ElevatedButton(
-                onPressed: null,
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/RideList');
+                },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(200, screenHeight * 0.10),
-                  backgroundColor: Colors.lightBlue,
+                  backgroundColor: obcBlue,
                 ),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
-                      Text('View currenet ride details',
+                      Text('View current ride details',
                           style: TextStyle(
                             fontSize: 20,
                             fontFamily: 'Nunito',

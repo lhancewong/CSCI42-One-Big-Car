@@ -33,7 +33,7 @@ class _RegisterState extends State<Register> {
         yearTextController.text.length > 1) {
       Fluttertoast.showToast(msg: "Year Level must be exactly 1 character.");
     } else if (courseTextController.text.length < 4) {
-      Fluttertoast.showToast(msg: "Password must be at least 4 characters.");
+      Fluttertoast.showToast(msg: "Course must be at least 4 characters.");
     } else if (confirmPasswordTextController.text !=
         passwordTextController.text) {
       Fluttertoast.showToast(msg: "Passwords do not match");

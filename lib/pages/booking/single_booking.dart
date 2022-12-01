@@ -499,6 +499,7 @@ class _SingleBookingState extends State<SingleBooking> {
 
                     Fluttertoast.showToast(
                         msg: "Booking Information has been saved.");
+                    Navigator.of(context).pushNamed('/RideSearch');
                   }
                 },
                 child: const Text(

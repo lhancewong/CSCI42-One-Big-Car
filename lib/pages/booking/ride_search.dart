@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class RideList extends StatefulWidget {
-  const RideList({super.key});
+class RideSearch extends StatefulWidget {
+  const RideSearch({super.key});
 
   @override
-  State<RideList> createState() => _RideListState();
+  State<RideSearch> createState() => _RideSearchState();
 }
-class _RideListState extends State<RideList> {
+class _RideSearchState extends State<RideSearch> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -65,54 +65,52 @@ class _RideListState extends State<RideList> {
         floatingActionButton: BackButton(
           color: obcBlue,
         ),
-        body: Stack(children: [
-          Padding(
-            padding: EdgeInsets.only(
-              left: 35,
-              top: screenHeight * 0.12,
-            ),
-            child: Text(
-              'Ride History',
-              style: TextStyle(
-                fontWeight: FontWeight.w800,
-                fontSize: 30,
-                fontFamily: 'Nunito',
-                color: obcBlue,
-              ),
+        body: Stack(
+                children: [
+                  Padding(
+          padding: EdgeInsets.only(
+            left: 35,
+            top: screenHeight * 0.12,
+          ),
+          child: Text(
+            'Ride Search',
+            style: TextStyle(
+              fontWeight: FontWeight.w800,
+              fontSize: 30,
+              fontFamily: 'Nunito',
+              color: obcBlue,
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              padding: const EdgeInsets.all(40.0),
-              height: screenHeight * 0.75,
-              decoration: BoxDecoration(
-                border: Border.all(color: obcBlue),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(50),
-                  topRight: Radius.circular(50),
-                ),
-                color: obcBlue,
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            padding: const EdgeInsets.all(40.0),
+            height: screenHeight * 0.75,
+            decoration: BoxDecoration(
+              border: Border.all(color: obcBlue),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(50),
+                topRight: Radius.circular(50),
               ),
+              color: obcBlue,
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(top: screenHeight * 0.22),
-              child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('rides')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) return const Text('Loading...');
-                    return ListView.builder(
-                        itemExtent: 100,
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (context, index) =>
-                            buildListItem(context, snapshot.data!.docs[index]));
-                  }),
-            ),
-          )
-        ]));
+        ),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(top: screenHeight * 0.22),
+            child: StreamBuilder(
+                stream: FirebaseFirestore.instance.collection('rides').snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const Text('Loading...');
+                  return ListView.builder(
+                            itemExtent: 100,
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) =>
+                                buildListItem(context, snapshot.data!.docs[index]));
+                }),
+          ),
+        )]));
   }
 }

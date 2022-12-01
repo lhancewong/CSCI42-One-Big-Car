@@ -20,6 +20,7 @@ import 'package:one_big_car/pages/booking/ride_history.dart';
 import 'package:one_big_car/pages/chat/chat_selection.dart';
 import 'package:one_big_car/pages/chat/chat_page.dart';
 import 'package:one_big_car/pages/passenger_list.dart';
+import 'package:one_big_car/pages/booking/ride_search.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,10 +59,12 @@ class MyApp extends StatelessWidget {
         '/RideHistory': (context) => const RideHistory(),
         '/ChatSelection': (context) => const ChatSelection(),
         '/ChatPage': (context) => const ChatPage(),
-        '/RideList': (context) => RideList(),
+        '/RideList': (context) => const RideList(),
+        '/RideSearch': (context) => const RideSearch(),
         '/Location' : (context) => const Location(),
         '/Register': (context) => const Register(),
         '/LogIn': (context) => const LogIn(),
+        '/PassengerList': (context) => const PassengerList(),
         /* ((context) {
           return SignInScreen(
             actions: [

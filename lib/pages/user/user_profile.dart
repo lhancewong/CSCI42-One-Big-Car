@@ -201,7 +201,13 @@ class _UserProfileState extends State<UserProfile> {
                               color: obcBlue,
                             )),
                         onPressed: () {
-                          saveInfo();
+                          if (dropdownValue == null) {
+                            Fluttertoast.showToast(
+                                msg:
+                                    "Please choose a role before proceeding to Home.");
+                          } else {
+                            saveInfo();
+                          }
                         },
                       ),
                     ),
