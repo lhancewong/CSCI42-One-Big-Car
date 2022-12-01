@@ -44,13 +44,15 @@ class _RegisterState extends State<Register> {
 
   saveInfo() async {
     final User? firebaseUser = (await fAuth
-        .signInWithEmailAndPassword(
+            .createUserWithEmailAndPassword(
       email: emailTextController.text.trim(),
       password: passwordTextController.text.trim(),
-    ).catchError((msg) {
+    )
+            .catchError((msg) {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Error: " + msg.toString());
-    })).user;
+    }))
+        .user;
 
     if (firebaseUser != null) {
       Map userMap = {
@@ -84,163 +86,166 @@ class _RegisterState extends State<Register> {
           Icons.arrow_back,
           color: Color.fromRGBO(33, 41, 239, 1),
         ),
-        body: Container(
-            margin: const EdgeInsets.all(40.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Get Started',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 40,
-                        fontFamily: 'Nunito',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    autocorrect: false,
-                    enableSuggestions: false,
-                    controller: emailTextController,
-                    style: const TextStyle(fontSize: 16),
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color.fromRGBO(33, 41, 239, 1),
-                          width: 3.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    keyboardType: TextInputType.name,
-                    enableSuggestions: false,
-                    controller: firstNameTextController,
-                    style: const TextStyle(fontSize: 16),
-                    decoration: const InputDecoration(
-                      labelText: 'First Name',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color.fromRGBO(33, 41, 239, 1),
-                          width: 3.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    keyboardType: TextInputType.name,
-                    enableSuggestions: false,
-                    controller: lastNameTextController,
-                    style: const TextStyle(fontSize: 16),
-                    decoration: const InputDecoration(
-                      labelText: 'Last Name',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color.fromRGBO(33, 41, 239, 1),
-                          width: 3.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    keyboardType: TextInputType.number,
-                    controller: yearTextController,
-                    style: const TextStyle(fontSize: 16),
-                    decoration: const InputDecoration(
-                      labelText: 'Year Level',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color.fromRGBO(33, 41, 239, 1),
-                          width: 3.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    keyboardType: TextInputType.name,
-                    enableSuggestions: false,
-                    controller: courseTextController,
-                    style: const TextStyle(fontSize: 16),
-                    decoration: const InputDecoration(
-                      labelText: 'Course',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color.fromRGBO(33, 41, 239, 1),
-                          width: 3.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    obscureText: true,
-                    obscuringCharacter: "•",
-                    controller: passwordTextController,
-                    enableSuggestions: false,
-                    style: const TextStyle(fontSize: 16),
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color.fromRGBO(33, 41, 239, 1),
-                          width: 3.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    obscureText: true,
-                    obscuringCharacter: "•",
-                    controller: confirmPasswordTextController,
-                    enableSuggestions: false,
-                    style: const TextStyle(fontSize: 16),
-                    decoration: const InputDecoration(
-                      labelText: 'Confirm Password',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color.fromRGBO(33, 41, 239, 1),
-                          width: 3.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    style: const ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.all(14)),
-                        backgroundColor: MaterialStatePropertyAll<Color>(
-                            Color.fromRGBO(33, 41, 239, 1)),
-                        foregroundColor:
-                            MaterialStatePropertyAll<Color>(Colors.white)),
-                    onPressed: () {
-                      validateForm();
-                    },
-                    child: const Text('Register',
+        body: SingleChildScrollView(
+          child: Container(
+              padding: const EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.all(40.0),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Get Started',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        )),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      Navigator.of(context).pushNamed('/LogIn');
-                    },
-                    child: const Text(
-                      'Already have an account? Log in.',
-                      style: TextStyle(fontSize: 12),
+                          fontWeight: FontWeight.w800,
+                          fontSize: 40,
+                          fontFamily: 'Nunito',
+                        ),
+                      ),
                     ),
-                  )
-                ])));
+                    const SizedBox(height: 20),
+                    TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      autocorrect: false,
+                      enableSuggestions: false,
+                      controller: emailTextController,
+                      style: const TextStyle(fontSize: 16),
+                      decoration: const InputDecoration(
+                        labelText: 'Email',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromRGBO(33, 41, 239, 1),
+                            width: 3.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      keyboardType: TextInputType.name,
+                      enableSuggestions: false,
+                      controller: firstNameTextController,
+                      style: const TextStyle(fontSize: 16),
+                      decoration: const InputDecoration(
+                        labelText: 'First Name',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromRGBO(33, 41, 239, 1),
+                            width: 3.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      keyboardType: TextInputType.name,
+                      enableSuggestions: false,
+                      controller: lastNameTextController,
+                      style: const TextStyle(fontSize: 16),
+                      decoration: const InputDecoration(
+                        labelText: 'Last Name',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromRGBO(33, 41, 239, 1),
+                            width: 3.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      keyboardType: TextInputType.number,
+                      controller: yearTextController,
+                      style: const TextStyle(fontSize: 16),
+                      decoration: const InputDecoration(
+                        labelText: 'Year Level',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromRGBO(33, 41, 239, 1),
+                            width: 3.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      keyboardType: TextInputType.name,
+                      enableSuggestions: false,
+                      controller: courseTextController,
+                      style: const TextStyle(fontSize: 16),
+                      decoration: const InputDecoration(
+                        labelText: 'Course',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromRGBO(33, 41, 239, 1),
+                            width: 3.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      obscureText: true,
+                      obscuringCharacter: "•",
+                      controller: passwordTextController,
+                      enableSuggestions: false,
+                      style: const TextStyle(fontSize: 16),
+                      decoration: const InputDecoration(
+                        labelText: 'Password',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromRGBO(33, 41, 239, 1),
+                            width: 3.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      obscureText: true,
+                      obscuringCharacter: "•",
+                      controller: confirmPasswordTextController,
+                      enableSuggestions: false,
+                      style: const TextStyle(fontSize: 16),
+                      decoration: const InputDecoration(
+                        labelText: 'Confirm Password',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromRGBO(33, 41, 239, 1),
+                            width: 3.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      style: const ButtonStyle(
+                          padding: MaterialStatePropertyAll(EdgeInsets.all(14)),
+                          backgroundColor: MaterialStatePropertyAll<Color>(
+                              Color.fromRGBO(33, 41, 239, 1)),
+                          foregroundColor:
+                              MaterialStatePropertyAll<Color>(Colors.white)),
+                      onPressed: () {
+                        validateForm();
+                      },
+                      child: const Text('Register',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          )),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        Navigator.of(context).pushNamed('/LogIn');
+                      },
+                      child: const Text(
+                        'Already have an account? Log in.',
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    )
+                  ])),
+        ));
   }
 }

@@ -21,6 +21,7 @@ class _UserHomepageState extends State<UserHomepage> {
 
   Map data = {};
   String name = "";
+  bool isHead = true;
 
   String? getData() {
     currentFirebaseUser = fAuth.currentUser;
@@ -43,6 +44,7 @@ class _UserHomepageState extends State<UserHomepage> {
         ? data
         : ModalRoute.of(context)!.settings.arguments as Map;
     name = data["name"];
+    isHead = ("HEAD" == data["role"]);
 
     return Scaffold(
         backgroundColor: obcBlue,
@@ -207,11 +209,11 @@ class _UserHomepageState extends State<UserHomepage> {
               margin: const EdgeInsets.all(40),
               alignment: Alignment.center,
               child: Column(
-                children: const [
-                  SizedBox(height: 25),
+                children: [
+                  const SizedBox(height: 25),
                   Text(
-                    'HEAD',
-                    style: TextStyle(
+                    isHead ? 'HEAD' : 'PASSENGER',
+                    style: const TextStyle(
                       height: 1,
                       fontWeight: FontWeight.w800,
                       fontSize: 40,
@@ -219,7 +221,7 @@ class _UserHomepageState extends State<UserHomepage> {
                       color: Colors.white,
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Homepage',
                     style: TextStyle(
                       height: 1,
