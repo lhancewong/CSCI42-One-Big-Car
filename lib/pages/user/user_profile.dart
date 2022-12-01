@@ -39,14 +39,10 @@ class _UserProfileState extends State<UserProfile> {
     }
 
     Fluttertoast.showToast(msg: "Profile information has been saved.");
-    Navigator.pushNamed(context, '/Homepage', arguments: <String, String> {
+    Navigator.pushNamed(context, '/Homepage', arguments: <String, String>{
       "name": name,
+      "role": dropdownValue.toString(),
     });
-
-    String getData() {
-      final User user = fAuth.currentUser!;
-      return user.displayName ?? 'Anon User';
-    }
   }
 
   @override
