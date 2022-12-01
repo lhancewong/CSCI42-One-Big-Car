@@ -44,13 +44,15 @@ class _RegisterState extends State<Register> {
 
   saveInfo() async {
     final User? firebaseUser = (await fAuth
-        .signInWithEmailAndPassword(
+            .createUserWithEmailAndPassword(
       email: emailTextController.text.trim(),
       password: passwordTextController.text.trim(),
-    ).catchError((msg) {
+    )
+            .catchError((msg) {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Error: " + msg.toString());
-    })).user;
+    }))
+        .user;
 
     if (firebaseUser != null) {
       Map userMap = {
@@ -69,7 +71,7 @@ class _RegisterState extends State<Register> {
 
       currentFirebaseUser = firebaseUser;
       Fluttertoast.showToast(msg: "Account has been created.");
-      Navigator.pushNamed(context, '/UserProfile');
+      Navigator.pushNamed(context, '/LogIn');
     } else {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Account has not been created.");

@@ -18,16 +18,9 @@ class UserHomepage extends StatefulWidget {
 ///  it. For now I wont do that.
 class _UserHomepageState extends State<UserHomepage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  String name = "Poseidon";
 
-  getInfo() async {
-    final ref = FirebaseDatabase.instance.ref();
-    final User user = currentFirebaseUser!;
-    final snapshot = await ref.child('users/$user/first_name').get();
-    if (snapshot.exists) {
-      name = snapshot.value.toString();
-    }
-  }
+  Map data = {};
+  String name = "";
 
   String? getData() {
     currentFirebaseUser = fAuth.currentUser;
@@ -40,13 +33,16 @@ class _UserHomepageState extends State<UserHomepage> {
 
   @override
   Widget build(BuildContext context) {
-    getInfo();
-
     double screenHeight = MediaQuery.of(context).size.height;
 
     Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
     Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
     Color obcLightBlue = const Color.fromRGBO(33, 41, 239, 0.5);
+
+    data = data.isNotEmpty
+        ? data
+        : ModalRoute.of(context)!.settings.arguments as Map;
+    name = data["name"];
 
     return Scaffold(
         backgroundColor: obcBlue,

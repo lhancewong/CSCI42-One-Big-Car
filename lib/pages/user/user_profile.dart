@@ -16,24 +16,12 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   String dropdownValue = list.first;
-  String name = "Poseidon";
-  String yearCourse = "0 BS AA";
 
-  getInfo() async {
-    final ref = FirebaseDatabase.instance.ref();
-    final User user = currentFirebaseUser!;
-    final snapshot1 = await ref.child('users/$user/first_name').get();
-    final snapshot2 = await ref.child('users/$user/year').get();
-    final snapshot3 = await ref.child('users/$user/course').get();
-    if (snapshot1.exists) {
-      name = snapshot1.value.toString();
-    }
-    if (snapshot2.exists && snapshot3.exists) {
-      yearCourse = snapshot2.value.toString() + " " + snapshot3.value.toString();
-    }
-  }
+  Map data = {};
 
-  saveInfo() {
+  String name = "";
+
+  saveInfo() async {
     Map userMap = {
       "role": dropdownValue,
     };
@@ -41,8 +29,19 @@ class _UserProfileState extends State<UserProfile> {
     DatabaseReference usersRef = FirebaseDatabase.instance.ref().child("users");
     usersRef.child(currentFirebaseUser!.uid).child("profile").set(userMap);
 
+    final ref = FirebaseDatabase.instance.ref();
+    String? user = currentFirebaseUser!.uid.toString();
+    final snapshot = await ref.child('users/$user/first name').get();
+    if (snapshot.exists) {
+      name = snapshot.value.toString();
+    } else {
+      name = "Poseidon";
+    }
+
     Fluttertoast.showToast(msg: "Profile information has been saved.");
-    Navigator.pushNamed(context, '/Homepage');
+    Navigator.pushNamed(context, '/Homepage', arguments: <String, String> {
+      "name": name,
+    });
 
     String getData() {
       final User user = fAuth.currentUser!;
@@ -52,13 +51,15 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    getInfo();
-
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
     Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
     Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
+
+    data = data.isNotEmpty
+        ? data
+        : ModalRoute.of(context)!.settings.arguments as Map;
 
     ButtonStyle buttonStyle = ButtonStyle(
       padding:
@@ -124,7 +125,7 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  name,
+                  data["name"],
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     height: 1,
@@ -135,7 +136,7 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  yearCourse,
+                  data["year&course"],
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 20,
