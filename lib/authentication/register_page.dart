@@ -80,12 +80,15 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+
+    Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
+    Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
+    
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-        floatingActionButton: const Icon(
-          Icons.arrow_back,
-          color: Color.fromRGBO(33, 41, 239, 1),
-        ),
+      floatingActionButton: BackButton(
+        color: obcBlue,
+      ),
         body: SingleChildScrollView(
           child: Container(
               padding: const EdgeInsets.only(top: 20),
