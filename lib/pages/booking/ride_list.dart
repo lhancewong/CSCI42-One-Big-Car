@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class RideList extends StatefulWidget {
   const RideList({super.key});
@@ -7,6 +8,7 @@ class RideList extends StatefulWidget {
   @override
   State<RideList> createState() => _RideListState();
 }
+
 class _RideListState extends State<RideList> {
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,8 @@ class _RideListState extends State<RideList> {
       shape: const CircleBorder(),
       padding: const EdgeInsets.all(20),
     );
+    final DateFormat formatter = DateFormat('MMMM d, yyyy');
+    final String dateInfo = formatter.format(DateTime.now());
 
     Widget buildListItem(BuildContext context, DocumentSnapshot rideInfo) {
       return ListTile(
@@ -33,14 +37,15 @@ class _RideListState extends State<RideList> {
               borderRadius: BorderRadius.all(Radius.circular(16)),
               color: Colors.white,
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             margin: const EdgeInsets.symmetric(vertical: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(rideInfo['time']),
                 Text(
-                  rideInfo['origin'],
+                  "FROM: ${rideInfo['origin']}",
                   style: const TextStyle(
                     fontWeight: FontWeight.w800,
                     fontFamily: 'Nunito',
@@ -48,7 +53,7 @@ class _RideListState extends State<RideList> {
                   ),
                 ),
                 Text(
-                  rideInfo['destination'],
+                  "TO: ${rideInfo['destination']}",
                   style: const TextStyle(
                     fontWeight: FontWeight.w800,
                     fontFamily: 'Nunito',
@@ -61,25 +66,35 @@ class _RideListState extends State<RideList> {
     }
 
     return Scaffold(
+        backgroundColor: obcBlue,
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         floatingActionButton: BackButton(
-          color: obcBlue,
+          color: obcGrey,
         ),
         body: Stack(children: [
-          Padding(
-            padding: EdgeInsets.only(
-              left: 35,
-              top: screenHeight * 0.12,
-            ),
-            child: Text(
-              'Ride History',
-              style: TextStyle(
-                fontWeight: FontWeight.w800,
-                fontSize: 30,
-                fontFamily: 'Nunito',
-                color: obcBlue,
-              ),
-            ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+                padding: EdgeInsets.only(
+                  top: screenHeight * 0.08,
+                ),
+                child: RichText(
+                  text: TextSpan(
+                      text: "TODAY'S \n RIDES\n",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 35,
+                        fontFamily: 'Nunito',
+                        color: obcGrey,
+                      ),
+                      children: <InlineSpan>[
+                        TextSpan(
+                            text: dateInfo,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 20))
+                      ]),
+                  textAlign: TextAlign.center,
+                )),
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -97,7 +112,8 @@ class _RideListState extends State<RideList> {
             ),
           ),
           Expanded(
-            child: Padding(
+            child: Container(
+              margin: const EdgeInsets.only(top: 20),
               padding: EdgeInsets.only(top: screenHeight * 0.22),
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance
@@ -106,7 +122,7 @@ class _RideListState extends State<RideList> {
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) return const Text('Loading...');
                     return ListView.builder(
-                        itemExtent: 100,
+                        itemExtent: 110,
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) =>
                             buildListItem(context, snapshot.data!.docs[index]));

@@ -72,105 +72,195 @@ class _UserHomepageState extends State<UserHomepage> {
                   maxChildSize: 1,
                   builder: (context, scrollController) {
                     return SingleChildScrollView(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const SizedBox(height: 20),
-                            Text(
-                              'Welcome\nback, $name!',
-                              style: const TextStyle(
-                                height: 1,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 32,
-                                fontFamily: 'Nunito',
-                                color: Colors.black,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                            const SizedBox(height: 25),
-                            // Set-up Ride Button
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                padding: const MaterialStatePropertyAll(
-                                    EdgeInsets.all(40)),
-                                backgroundColor:
-                                    MaterialStatePropertyAll<Color>(obcGrey),
-                                foregroundColor:
-                                    const MaterialStatePropertyAll<Color>(
-                                        Colors.black),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(13),
-                                        side: BorderSide(color: obcGrey))),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed('/SingleBooking');
-                              },
-                              child: const Text('Set-up ride',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 26,
-                                    fontFamily: 'Nunito',
-                                  )),
-                            ),
-                            const SizedBox(height: 25),
-                            // View Passengers Button
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                padding: const MaterialStatePropertyAll(
-                                    EdgeInsets.all(40)),
-                                backgroundColor:
-                                    MaterialStatePropertyAll<Color>(obcGrey),
-                                foregroundColor:
-                                    const MaterialStatePropertyAll<Color>(
-                                        Colors.black),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(13),
-                                        side: BorderSide(color: obcGrey))),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed('/PassengerList');
-                              },
-                              child: const Text('View Passengers',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 26,
-                                    fontFamily: 'Nunito',
-                                  )),
-                            ),
-                            const SizedBox(height: 25),
-                            // View Ride History Button
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                padding: const MaterialStatePropertyAll(
-                                    EdgeInsets.all(14)),
-                                backgroundColor:
-                                    MaterialStatePropertyAll<Color>(obcGrey),
-                                foregroundColor:
-                                    const MaterialStatePropertyAll<Color>(
-                                        Colors.black),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(13),
-                                        side: BorderSide(color: obcGrey))),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pushNamed('/RideHistory');
-                              },
-                              child: const Text('View ride history',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 26,
-                                    fontFamily: 'Nunito',
-                                  )),
-                            ),
-                          ]),
+                      child: isHead
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    'Welcome\nback, $name!',
+                                    style: const TextStyle(
+                                      height: 1,
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 32,
+                                      fontFamily: 'Nunito',
+                                      color: Colors.black,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  const SizedBox(height: 25),
+                                  // Set-up Ride Button
+                                  ElevatedButton(
+                                    style: ButtonStyle(
+                                      padding: const MaterialStatePropertyAll(
+                                          EdgeInsets.all(40)),
+                                      backgroundColor:
+                                          MaterialStatePropertyAll<Color>(
+                                              obcGrey),
+                                      foregroundColor:
+                                          const MaterialStatePropertyAll<Color>(
+                                              Colors.black),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(13),
+                                              side:
+                                                  BorderSide(color: obcGrey))),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pushNamed('/SingleBooking');
+                                    },
+                                    child: const Text('Set-up ride',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 26,
+                                          fontFamily: 'Nunito',
+                                        )),
+                                  ),
+                                  const SizedBox(height: 25),
+                                  // View Passengers Button
+                                  ElevatedButton(
+                                    style: ButtonStyle(
+                                      padding: const MaterialStatePropertyAll(
+                                          EdgeInsets.all(40)),
+                                      backgroundColor:
+                                          MaterialStatePropertyAll<Color>(
+                                              obcGrey),
+                                      foregroundColor:
+                                          const MaterialStatePropertyAll<Color>(
+                                              Colors.black),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(13),
+                                              side:
+                                                  BorderSide(color: obcGrey))),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pushNamed('/PassengerList');
+                                    },
+                                    child: const Text('View Passengers',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 26,
+                                          fontFamily: 'Nunito',
+                                        )),
+                                  ),
+                                  const SizedBox(height: 25),
+                                  // View Ride History Button
+                                  ElevatedButton(
+                                    style: ButtonStyle(
+                                      padding: const MaterialStatePropertyAll(
+                                          EdgeInsets.all(14)),
+                                      backgroundColor:
+                                          MaterialStatePropertyAll<Color>(
+                                              obcGrey),
+                                      foregroundColor:
+                                          const MaterialStatePropertyAll<Color>(
+                                              Colors.black),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(13),
+                                              side:
+                                                  BorderSide(color: obcGrey))),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pushNamed('/RideHistory');
+                                    },
+                                    child: const Text('View ride history',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 26,
+                                          fontFamily: 'Nunito',
+                                        )),
+                                  ),
+                                ])
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    'Welcome\nback, $name!',
+                                    style: const TextStyle(
+                                      height: 1,
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 32,
+                                      fontFamily: 'Nunito',
+                                      color: Colors.black,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  const SizedBox(height: 25),
+                                  // Set-up Ride Button
+                                  ElevatedButton(
+                                    style: ButtonStyle(
+                                      padding: const MaterialStatePropertyAll(
+                                          EdgeInsets.all(40)),
+                                      backgroundColor:
+                                          MaterialStatePropertyAll<Color>(
+                                              obcGrey),
+                                      foregroundColor:
+                                          const MaterialStatePropertyAll<Color>(
+                                              Colors.black),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(13),
+                                              side:
+                                                  BorderSide(color: obcGrey))),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pushNamed('/RideList');
+                                    },
+                                    child: const Text('Find a ride',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 26,
+                                          fontFamily: 'Nunito',
+                                        )),
+                                  ),
+                                  const SizedBox(height: 25),
+
+                                  // View Ride History Button
+                                  ElevatedButton(
+                                    style: ButtonStyle(
+                                      padding: const MaterialStatePropertyAll(
+                                          EdgeInsets.all(14)),
+                                      backgroundColor:
+                                          MaterialStatePropertyAll<Color>(
+                                              obcGrey),
+                                      foregroundColor:
+                                          const MaterialStatePropertyAll<Color>(
+                                              Colors.black),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(13),
+                                              side:
+                                                  BorderSide(color: obcGrey))),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pushNamed('/RideHistory');
+                                    },
+                                    child: const Text('View ride history',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 26,
+                                          fontFamily: 'Nunito',
+                                        )),
+                                  ),
+                                ]),
                     );
                   },
                 ),
