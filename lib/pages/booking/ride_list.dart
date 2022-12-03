@@ -1,6 +1,9 @@
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:one_big_car/global/global.dart';
 
 class RideList extends StatefulWidget {
   const RideList({super.key});
@@ -17,51 +20,170 @@ class _RideListState extends State<RideList> {
     double screenWidth = MediaQuery.of(context).size.width;
     Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
     Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
-    final Size buttonSize = Size(screenWidth * 0.45, screenHeight * 0.1);
-    final ButtonStyle style = ElevatedButton.styleFrom(
-        fixedSize: buttonSize, textStyle: const TextStyle(fontSize: 20));
-    final ButtonStyle addButtonStyle = ElevatedButton.styleFrom(
-      fixedSize: buttonSize,
-      textStyle: const TextStyle(fontSize: 32),
-      shape: const CircleBorder(),
-      padding: const EdgeInsets.all(20),
+    final Size buttonSize = Size(screenWidth * 0.85, screenHeight * 0.1);
+    final ButtonStyle listButtonStyle = ElevatedButton.styleFrom(
+        fixedSize: buttonSize,
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        backgroundColor: obcGrey,
+        foregroundColor: Colors.black,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)));
+    TextStyle overlaysmalltextStyle = const TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: 15,
+      fontFamily: 'Nunito',
+      color: Colors.black,
     );
+    TextStyle overlaybigtextStyle = const TextStyle(
+      fontWeight: FontWeight.w600,
+      fontSize: 25,
+      fontFamily: 'Nunito',
+      color: Colors.black,
+    );
+    final ButtonStyle confirmBookingButton = ElevatedButton.styleFrom(
+        fixedSize: buttonSize,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        backgroundColor: obcBlue,
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)));
     final DateFormat formatter = DateFormat('MMMM d, yyyy');
     final String dateInfo = formatter.format(DateTime.now());
 
-    Widget buildListItem(BuildContext context, DocumentSnapshot rideInfo) {
+    FirebaseDatabase.instance.ref().child('bookings');
+
+    String? getData() {
+      currentFirebaseUser = fAuth.currentUser;
+      if (currentFirebaseUser != null) {
+        return "Username can't be empty";
+      }
+
+      return null;
+    }
+
+    Widget buildListItem(BuildContext context, rideInfo) {
       return ListTile(
-        title: Container(
-            width: screenWidth * 0.85,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(16)),
-              color: Colors.white,
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(rideInfo['time']),
-                Text(
-                  "FROM: ${rideInfo['origin']}",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontFamily: 'Nunito',
-                    color: Colors.black,
-                  ),
+        title: ElevatedButton(
+          style: listButtonStyle,
+          onPressed: () async {
+            OverlayState? overlayState = Overlay.of(context);
+            late OverlayEntry overlayEntry;
+            overlayEntry = OverlayEntry(builder: ((context) {
+              return Stack(alignment: Alignment.center, children: <Widget>[
+                Container(
+                  width: screenWidth,
+                  height: screenHeight,
+                  color: Colors.black.withOpacity(0.5),
                 ),
-                Text(
-                  "TO: ${rideInfo['destination']}",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontFamily: 'Nunito',
-                    color: Colors.black,
-                  ),
+                Container(
+                  width: screenWidth * 0.9,
+                  height: screenHeight * 0.6,
+                  color: obcGrey,
+                  child: Stack(children: <Widget>[
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Material(
+                        color: obcGrey,
+                        child: IconButton(
+                          onPressed: () async {
+                            overlayEntry.remove();
+                          },
+                          icon: const Icon(Icons.close),
+                          iconSize: 25,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          width: 90,
+                          height: screenHeight * 0.6,
+                          color: obcBlue,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              "Rider: PlaceHolder",
+                              style: overlaybigtextStyle,
+                              textAlign: TextAlign.left,
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                  text: "Meeting point @\n",
+                                  style: overlaysmalltextStyle,
+                                  children: <InlineSpan>[
+                                    TextSpan(
+                                        text: rideInfo['origin'],
+                                        style: overlaybigtextStyle)
+                                  ]),
+                              textAlign: TextAlign.left,
+                            ),
+                            RichText(
+                                text: TextSpan(
+                                    text: "Drop-off point\n",
+                                    style: overlaysmalltextStyle,
+                                    children: <InlineSpan>[
+                                      TextSpan(
+                                          text: rideInfo['destination'],
+                                          style: overlaybigtextStyle)
+                                    ]),
+                                textAlign: TextAlign.left)
+                          ],
+                        ),
+                      ],
+                    ),
+                  ]),
                 ),
-              ],
-            )),
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        overlayEntry.remove();
+                      },
+                      style: confirmBookingButton,
+                      child: const Text("Confirm Booking",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 25,
+                              fontFamily: 'Nunito',
+                              color: Colors.white)),
+                    ),
+                  ),
+                )
+              ]);
+            }));
+
+            overlayState?.insert(overlayEntry);
+            /* await Future.delayed(Duration(seconds: 3));
+            overlayEntry.remove(); */
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(rideInfo['time']),
+              Text(
+                "FROM: ${rideInfo['origin']}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontFamily: 'Nunito',
+                  color: Colors.black,
+                ),
+              ),
+              Text(
+                "TO: ${rideInfo['destination']}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontFamily: 'Nunito',
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ),
       );
     }
 
@@ -96,39 +218,27 @@ class _RideListState extends State<RideList> {
                   textAlign: TextAlign.center,
                 )),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              padding: const EdgeInsets.all(40.0),
-              height: screenHeight * 0.75,
-              decoration: BoxDecoration(
-                border: Border.all(color: obcBlue),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(50),
-                  topRight: Radius.circular(50),
-                ),
-                color: obcBlue,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(top: 20),
-              padding: EdgeInsets.only(top: screenHeight * 0.22),
-              child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('rides')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) return const Text('Loading...');
-                    return ListView.builder(
-                        itemExtent: 110,
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (context, index) =>
-                            buildListItem(context, snapshot.data!.docs[index]));
-                  }),
-            ),
-          )
+          Container(
+              margin: EdgeInsets.only(top: screenHeight * 0.23),
+              child: /* FirebaseAnimatedList(
+                query:
+                    /* FirebaseFirestore.instance.collection('rides').snapshots() */bookingsRef,
+                itemBuilder:(BuildContext context, DataSnapshot snapshot, animation, index) {
+                  if (!snapshot.exists) return const Text('Loading...');
+                  return new ListTile()
+                }, */
+                  StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('rides')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const Text('Loading...');
+                        return ListView.builder(
+                            itemExtent: 110,
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) => buildListItem(
+                                context, snapshot.data!.docs[index]));
+                      }))
         ]));
   }
 }

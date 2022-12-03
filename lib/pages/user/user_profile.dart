@@ -53,8 +53,12 @@ class _UserProfileState extends State<UserProfile> {
     Fluttertoast.showToast(msg: "Profile information has been saved.");
     Navigator.pushNamed(context, '/Homepage', arguments: <String, String>{
       "name": name,
-      "role": dropdownValue.toString(),
     });
+
+    String getData() {
+      final User user = fAuth.currentUser!;
+      return user.displayName ?? 'Anon User';
+    }
   }
 
   void pickUploadProfilePicture() async {
@@ -108,19 +112,12 @@ class _UserProfileState extends State<UserProfile> {
               side: BorderSide(color: obcGrey))),
     );
 
-    ButtonStyle buttonStyle2 = ButtonStyle(
-      padding:
-          const MaterialStatePropertyAll(EdgeInsets.fromLTRB(10, 15, 10, 15)),
-      backgroundColor: MaterialStatePropertyAll<Color>(obcGrey),
-      foregroundColor: const MaterialStatePropertyAll<Color>(Colors.black),
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(13),
-              side: BorderSide(color: obcGrey))),
-    );
-
     return Scaffold(
       backgroundColor: Colors.white,
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      floatingActionButton: BackButton(
+        color: obcBlue,
+      ),
       body: Stack(
         children: [
           Align(
@@ -200,12 +197,6 @@ class _UserProfileState extends State<UserProfile> {
                       borderRadius: const BorderRadius.all(Radius.circular(16)),
                       color: Colors.white),
                   child: DropdownButton<String>(
-                    hint: const Text("Choose Role",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 24,
-                          color: Colors.grey,
-                        )),
                     value: dropdownValue,
                     underline: Container(color: Colors.white),
                     isExpanded: true,
@@ -234,47 +225,18 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                 ),
                 const SizedBox(height: 50),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: buttonStyle2,
-                        child: Text("Home",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 26,
-                              color: obcBlue,
-                            )),
-                        onPressed: () {
-                          if (dropdownValue == null) {
-                            Fluttertoast.showToast(
-                                msg:
-                                    "Please choose a role before proceeding to Home.");
-                          } else {
-                            saveInfo();
-                          }
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: ElevatedButton(
-                        style: buttonStyle2,
-                        child: Text("Sign-out",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 26,
-                              color: obcBlue,
-                            )),
-                        onPressed: () {
-                          fAuth.signOut();
-                          Navigator.of(context).pushNamed('/');
-                        },
-                      ),
-                    ),
-                  ],
-                )
+                ElevatedButton(
+                  style: buttonStyle,
+                  child: Text("Save",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 26,
+                        color: obcBlue,
+                      )),
+                  onPressed: () {
+                    saveInfo();
+                  },
+                ),
               ],
             ),
           ),
