@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:one_big_car/global/global.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 const List<String> list = <String>['HEAD', 'PASSENGER'];
 
@@ -21,6 +26,13 @@ class _UserProfileState extends State<UserProfile> {
 
   String name = "";
 
+  @override
+  void initState() {
+    super.initState();
+
+    loadProfilePicture();
+  }
+
   saveInfo() async {
     Map userMap = {
       "role": dropdownValue,
@@ -33,7 +45,7 @@ class _UserProfileState extends State<UserProfile> {
     String? user = currentFirebaseUser!.uid.toString();
     final snapshot = await ref.child('users/$user/first name').get();
     if (snapshot.exists) {
-      name = snapshot.value.toString();
+      name = '${snapshot.value}';
     } else {
       name = "Poseidon";
     }
@@ -44,6 +56,34 @@ class _UserProfileState extends State<UserProfile> {
       "role": dropdownValue.toString(),
     });
   }
+
+  void pickUploadProfilePicture() async {
+    final image = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxHeight: MediaQuery.of(context).size.width * 0.65,
+      maxWidth: MediaQuery.of(context).size.width * 0.65,
+      imageQuality: 80,
+    );
+
+    String? user = currentFirebaseUser!.uid.toString();
+    final profilePicRef =
+        FirebaseStorage.instance.ref().child('images/$user/profilepic.jpg');
+    await profilePicRef.putFile(File(image!.path));
+    loadProfilePicture();
+  }
+
+  void loadProfilePicture() async {
+    String? user = currentFirebaseUser!.uid.toString();
+    final profilePicRef =
+        FirebaseStorage.instance.ref().child('images/$user/profilepic.jpg');
+    profilePicRef.getDownloadURL().then(((value) {
+      setState(() {
+        profilePicUrl = value;
+      });
+    }));
+  }
+
+  String profilePicUrl = '';
 
   @override
   Widget build(BuildContext context) {
@@ -114,16 +154,22 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Container(
-                  width: screenWidth * 0.65,
-                  height: screenWidth * 0.65,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: obcBlue,
-                      width: screenWidth * 0.020,
+                GestureDetector(
+                  onTap: pickUploadProfilePicture,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: obcBlue,
+                        width: screenWidth * 0.020,
+                      ),
+                      shape: BoxShape.circle,
+                      color: Colors.white,
                     ),
-                    shape: BoxShape.circle,
-                    color: Colors.white,
+                    child: CircleAvatar(
+                      radius: screenWidth * 0.35,
+                      backgroundImage: NetworkImage(profilePicUrl),
+                      backgroundColor: Colors.white,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 15),
