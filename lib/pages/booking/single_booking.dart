@@ -40,6 +40,15 @@ class _SingleBookingState extends State<SingleBooking> {
   TextEditingController TextController2 = TextEditingController();
   TextEditingController TextController3 = TextEditingController();
 
+  String? getData() {
+    currentFirebaseUser = fAuth.currentUser;
+    if (currentFirebaseUser != null) {
+      return "Username can't be empty";
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -88,10 +97,7 @@ class _SingleBookingState extends State<SingleBooking> {
                 const EdgeInsets.only(top: 65, bottom: 40, left: 40, right: 40),
             alignment: Alignment.center,
             child: Column(
-              children: [
-                
-                Text('Booking Page', style: titleStyle)
-              ],
+              children: [Text('Booking Page', style: titleStyle)],
             ),
           ),
           //White BG with Buttons
@@ -241,8 +247,8 @@ class _SingleBookingState extends State<SingleBooking> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           const Text(
-                            "Select Ateneo Arrival and Departure Time/s",
-                            style: TextStyle(fontSize: 12)),
+                              "Select Ateneo Arrival and Departure Time/s",
+                              style: TextStyle(fontSize: 12)),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -310,7 +316,8 @@ class _SingleBookingState extends State<SingleBooking> {
                                               )),
                                           onPressed: () {
                                             setState(() {
-                                              if (dayColors[i] == obcGrey) { // fix para updates based on inputted times for each day
+                                              if (dayColors[i] == obcGrey) {
+                                                // fix para updates based on inputted times for each day
                                                 print(arrivalTime);
                                                 if (arrivalTime == null) {
                                                   Fluttertoast.showToast(
@@ -328,7 +335,8 @@ class _SingleBookingState extends State<SingleBooking> {
                                                   isDaySelected = true;
                                                   bookingMap[days[i]] = {
                                                     "arrival time": arrivalTime,
-                                                    "departure time": departureTime,
+                                                    "departure time":
+                                                        departureTime,
                                                   };
 
                                                   Fluttertoast.showToast(
@@ -471,11 +479,22 @@ class _SingleBookingState extends State<SingleBooking> {
                       "longitude": destinationData[2],
                     };
 
+                    var headid = {
+                      "head": currentFirebaseUser!.uid,
+                    };
+
                     if (dropdownValue == items[0]) {
                       bookingMap.addAll({
                         "notes": TextController3.text,
                       });
                     }
+
+                    DatabaseReference userBookingRef =
+                        FirebaseDatabase.instance.ref().child("bookings");
+                    userBookingRef
+                        .child(currentFirebaseUser!.uid)
+                        .child("head")
+                        .update(headid);
 
                     DatabaseReference sourceBookingRef =
                         FirebaseDatabase.instance.ref().child("bookings");
