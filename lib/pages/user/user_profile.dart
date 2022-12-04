@@ -22,15 +22,16 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   String? dropdownValue;
 
-  Map data = {};
-
   String name = "";
+  String yearCourse = "";
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
 
     loadProfilePicture();
+    getUserData();
   }
 
   saveInfo() async {
@@ -51,10 +52,22 @@ class _UserProfileState extends State<UserProfile> {
     }
 
     Fluttertoast.showToast(msg: "Profile information has been saved.");
-    Navigator.pushNamed(context, '/Homepage', arguments: <String, String>{
-      "name": name,
-      "role": dropdownValue.toString(),
-    });
+  }
+
+  void getUserData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await user.reload();
+    }
+    String? userUID = user!.uid.toString();
+    final ref = FirebaseDatabase.instance.ref();
+
+    final firstName = await ref.child('users/$userUID/first name').get();
+    name = '${firstName.value}';
+
+    final year = await ref.child('users/$userUID/year').get();
+    final course = await ref.child('users/$userUID/course').get();
+    yearCourse = '${year.value} ${course.value}';
   }
 
   void pickUploadProfilePicture() async {
@@ -73,9 +86,13 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   void loadProfilePicture() async {
-    String? user = currentFirebaseUser!.uid.toString();
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await user.reload();
+    }
+    String? userUID = user!.uid.toString();
     final profilePicRef =
-        FirebaseStorage.instance.ref().child('images/$user/profilepic.jpg');
+        FirebaseStorage.instance.ref().child('images/$userUID/profilepic.jpg');
     profilePicRef.getDownloadURL().then(((value) {
       setState(() {
         profilePicUrl = value;
@@ -92,10 +109,6 @@ class _UserProfileState extends State<UserProfile> {
 
     Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
     Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
-
-    data = data.isNotEmpty
-        ? data
-        : ModalRoute.of(context)!.settings.arguments as Map;
 
     ButtonStyle buttonStyle = ButtonStyle(
       padding:
@@ -174,7 +187,7 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  data["name"],
+                  name,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     height: 1,
@@ -185,7 +198,7 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  data["year&course"],
+                  yearCourse,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 20,
@@ -253,6 +266,11 @@ class _UserProfileState extends State<UserProfile> {
                                     "Please choose a role before proceeding to Home.");
                           } else {
                             saveInfo();
+                            Navigator.pushNamed(context, '/Homepage',
+                                arguments: <String, String>{
+                                  "name": name,
+                                  "role": dropdownValue.toString(),
+                                });
                           }
                         },
                       ),
