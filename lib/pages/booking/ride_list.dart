@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:one_big_car/global/global.dart';
+import 'package:one_big_car/pages/booking/ride_history.dart';
 
 class RideList extends StatefulWidget {
   const RideList({super.key});
@@ -13,6 +14,11 @@ class RideList extends StatefulWidget {
 }
 
 class _RideListState extends State<RideList> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -50,7 +56,7 @@ class _RideListState extends State<RideList> {
     final DateFormat formatter = DateFormat('MMMM d, yyyy');
     final String dateInfo = formatter.format(DateTime.now());
 
-    FirebaseDatabase.instance.ref().child('bookings');
+    final bookingsRef = FirebaseDatabase.instance.ref('bookings');
 
     String? getData() {
       currentFirebaseUser = fAuth.currentUser;
@@ -61,7 +67,11 @@ class _RideListState extends State<RideList> {
       return null;
     }
 
-    Widget buildListItem(BuildContext context, rideInfo) {
+    Widget buildListItem(BuildContext context, DataSnapshot rideInfo) {
+      String rideSourceName =
+          rideInfo.child("source").child("title").value.toString();
+      String rideDestinationName =
+          rideInfo.child("destination").child("title").value.toString();
       return ListTile(
         title: ElevatedButton(
           style: listButtonStyle,
@@ -115,7 +125,7 @@ class _RideListState extends State<RideList> {
                                   style: overlaysmalltextStyle,
                                   children: <InlineSpan>[
                                     TextSpan(
-                                        text: rideInfo['origin'],
+                                        text: rideSourceName,
                                         style: overlaybigtextStyle)
                                   ]),
                               textAlign: TextAlign.left,
@@ -126,7 +136,7 @@ class _RideListState extends State<RideList> {
                                     style: overlaysmalltextStyle,
                                     children: <InlineSpan>[
                                       TextSpan(
-                                          text: rideInfo['destination'],
+                                          text: rideDestinationName,
                                           style: overlaybigtextStyle)
                                     ]),
                                 textAlign: TextAlign.left)
@@ -164,9 +174,9 @@ class _RideListState extends State<RideList> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(rideInfo['time']),
+              Text('time'),
               Text(
-                "FROM: ${rideInfo['origin']}",
+                "FROM: $rideSourceName",
                 style: const TextStyle(
                   fontWeight: FontWeight.w800,
                   fontFamily: 'Nunito',
@@ -174,7 +184,135 @@ class _RideListState extends State<RideList> {
                 ),
               ),
               Text(
-                "TO: ${rideInfo['destination']}",
+                "TO: $rideDestinationName",
+                style: const TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontFamily: 'Nunito',
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    Widget buildListItemv2(BuildContext context, rideInfo) {
+      String rideSourceName = rideInfo['source']['title'];
+      String rideDestinationName = rideInfo['destination']['title'];
+      return ListTile(
+        title: ElevatedButton(
+          style: listButtonStyle,
+          onPressed: () async {
+            OverlayState? overlayState = Overlay.of(context);
+            late OverlayEntry overlayEntry;
+            overlayEntry = OverlayEntry(builder: ((context) {
+              return Stack(alignment: Alignment.center, children: <Widget>[
+                Container(
+                  width: screenWidth,
+                  height: screenHeight,
+                  color: Colors.black.withOpacity(0.5),
+                ),
+                Container(
+                  width: screenWidth * 0.9,
+                  height: screenHeight * 0.6,
+                  color: obcGrey,
+                  child: Stack(children: <Widget>[
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Material(
+                        color: obcGrey,
+                        child: IconButton(
+                          onPressed: () async {
+                            overlayEntry.remove();
+                          },
+                          icon: const Icon(Icons.close),
+                          iconSize: 25,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          width: 90,
+                          height: screenHeight * 0.6,
+                          color: obcBlue,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              "Rider: PlaceHolder",
+                              style: overlaybigtextStyle,
+                              textAlign: TextAlign.left,
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                  text: "Meeting point @\n",
+                                  style: overlaysmalltextStyle,
+                                  children: <InlineSpan>[
+                                    TextSpan(
+                                        text: rideSourceName,
+                                        style: overlaybigtextStyle)
+                                  ]),
+                              textAlign: TextAlign.left,
+                            ),
+                            RichText(
+                                text: TextSpan(
+                                    text: "Drop-off point\n",
+                                    style: overlaysmalltextStyle,
+                                    children: <InlineSpan>[
+                                      TextSpan(
+                                          text: rideDestinationName,
+                                          style: overlaybigtextStyle)
+                                    ]),
+                                textAlign: TextAlign.left)
+                          ],
+                        ),
+                      ],
+                    ),
+                  ]),
+                ),
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        overlayEntry.remove();
+                      },
+                      style: confirmBookingButton,
+                      child: const Text("Confirm Booking",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 25,
+                              fontFamily: 'Nunito',
+                              color: Colors.white)),
+                    ),
+                  ),
+                )
+              ]);
+            }));
+
+            overlayState?.insert(overlayEntry);
+            /* await Future.delayed(Duration(seconds: 3));
+            overlayEntry.remove(); */
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('time'),
+              Text(
+                "FROM: $rideSourceName",
+                style: const TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontFamily: 'Nunito',
+                  color: Colors.black,
+                ),
+              ),
+              Text(
+                "TO: $rideDestinationName",
                 style: const TextStyle(
                   fontWeight: FontWeight.w800,
                   fontFamily: 'Nunito',
@@ -218,27 +356,45 @@ class _RideListState extends State<RideList> {
                   textAlign: TextAlign.center,
                 )),
           ),
-          Container(
+          /* Container(
               margin: EdgeInsets.only(top: screenHeight * 0.23),
-              child: /* FirebaseAnimatedList(
-                query:
-                    /* FirebaseFirestore.instance.collection('rides').snapshots() */bookingsRef,
-                itemBuilder:(BuildContext context, DataSnapshot snapshot, animation, index) {
+              child: FirebaseAnimatedList(
+                query: bookingsRef,
+                itemBuilder: (context, snapshot, animation, index) {
                   if (!snapshot.exists) return const Text('Loading...');
-                  return new ListTile()
-                }, */
-                  StreamBuilder(
-                      stream: FirebaseFirestore.instance
-                          .collection('rides')
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) return const Text('Loading...');
-                        return ListView.builder(
-                            itemExtent: 110,
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, index) => buildListItem(
-                                context, snapshot.data!.docs[index]));
-                      }))
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      itemExtent: 110,
+                      itemCount: 1,
+                      itemBuilder: (context, index) {
+                        return buildListItem(context, snapshot);
+                      });
+                },
+              )), */
+          Container(
+            margin: EdgeInsets.only(top: screenHeight * 0.23),
+            child: StreamBuilder(
+                stream: bookingsRef.onValue,
+                builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    Map<dynamic, dynamic> map =
+                        snapshot.data!.snapshot.value as Map<dynamic, dynamic>;
+                    List<dynamic> list = [];
+                    list.clear();
+                    list = map.values.toList();
+                    print(list[1]['destination']['title']);
+                    return ListView.builder(
+                        itemExtent: 110,
+                        itemCount: snapshot.data!.snapshot.children.length,
+                        itemBuilder: (context, index) {
+                          return buildListItemv2(context, list[index]);
+                        });
+                  }
+                  /* buildListItem(context, list[index])); */
+                }),
+          )
         ]));
   }
 }
