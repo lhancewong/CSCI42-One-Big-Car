@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:one_big_car/global/global.dart';
 import 'package:one_big_car/pages/booking/ride_history.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class RideList extends StatefulWidget {
   const RideList({super.key});
@@ -72,10 +73,12 @@ class _RideListState extends State<RideList> {
           rideInfo.child("source").child("title").value.toString();
       String rideDestinationName =
           rideInfo.child("destination").child("title").value.toString();
+
       return ListTile(
         title: ElevatedButton(
           style: listButtonStyle,
           onPressed: () async {
+            print("hello");
             OverlayState? overlayState = Overlay.of(context);
             late OverlayEntry overlayEntry;
             overlayEntry = OverlayEntry(builder: ((context) {
@@ -198,6 +201,10 @@ class _RideListState extends State<RideList> {
     }
 
     Widget buildListItemv2(BuildContext context, rideInfo) {
+      var passengerID = {
+        "passenger": currentFirebaseUser!.uid,
+      };
+      String rideHead = rideInfo['head']['head'];
       String rideSourceName = rideInfo['source']['title'];
       String rideDestinationName = rideInfo['destination']['title'];
       return ListTile(
@@ -280,6 +287,12 @@ class _RideListState extends State<RideList> {
                     child: ElevatedButton(
                       onPressed: () async {
                         overlayEntry.remove();
+                        DatabaseReference passengerRef =
+                            FirebaseDatabase.instance.ref().child("bookings");
+                        passengerRef
+                            .child(rideHead)
+                            .child("passenger")
+                            .update(passengerID);
                       },
                       style: confirmBookingButton,
                       child: const Text("Confirm Booking",
