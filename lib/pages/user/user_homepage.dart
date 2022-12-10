@@ -35,6 +35,7 @@ class _UserHomepageState extends State<UserHomepage> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
 
     Color obcBlue = const Color.fromRGBO(33, 41, 239, 1);
     Color obcGrey = const Color.fromRGBO(243, 243, 243, 1);
@@ -331,19 +332,15 @@ class _UserHomepageState extends State<UserHomepage> {
                   Navigator.of(context).pushNamed('/RideList');
                 },
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(200, screenHeight * 0.10),
+                  minimumSize: Size(screenWidth, screenHeight * 0.10),
                   backgroundColor: obcBlue,
                 ),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text('View current ride details',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'Nunito',
-                            color: Colors.white,
-                          ))
-                    ])),
+                child: const Text('View current ride details',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Nunito',
+                      color: Colors.white,
+                    ))),
           )
         ]));
   }

@@ -1,4 +1,5 @@
 import 'package:date_field/date_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -479,8 +480,17 @@ class _SingleBookingState extends State<SingleBooking> {
                       "longitude": destinationData[2],
                     };
 
-                    var headid = {
-                      "head": currentFirebaseUser!.uid,
+                    final ref = FirebaseDatabase.instance.ref();
+                    User? user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {
+                      await user.reload();
+                    }
+                    String? userUID = user!.uid.toString();
+                    final snapshot =
+                        await ref.child('users/$userUID/first name').get();
+
+                    var headName = {
+                      "name": '${snapshot.value}',
                     };
 
                     if (dropdownValue == items[0]) {
@@ -492,29 +502,27 @@ class _SingleBookingState extends State<SingleBooking> {
                     DatabaseReference userBookingRef =
                         FirebaseDatabase.instance.ref().child("bookings");
                     userBookingRef
-                        .child(currentFirebaseUser!.uid)
+                        .child(userUID)
                         .child("head")
-                        .update(headid);
+                        .update(headName);
 
                     DatabaseReference sourceBookingRef =
                         FirebaseDatabase.instance.ref().child("bookings");
                     sourceBookingRef
-                        .child(currentFirebaseUser!.uid)
+                        .child(userUID)
                         .child("source")
                         .update(sourceBookingMap);
 
                     DatabaseReference destinationBookingRef =
                         FirebaseDatabase.instance.ref().child("bookings");
                     destinationBookingRef
-                        .child(currentFirebaseUser!.uid)
+                        .child(userUID)
                         .child("destination")
                         .update(destinationBookingMap);
 
                     DatabaseReference bookingRef =
                         FirebaseDatabase.instance.ref().child("bookings");
-                    bookingRef
-                        .child(currentFirebaseUser!.uid)
-                        .update(bookingMap);
+                    bookingRef.child(userUID).update(bookingMap);
 
                     Fluttertoast.showToast(
                         msg: "Booking Information has been saved.");

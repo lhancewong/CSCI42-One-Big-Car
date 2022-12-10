@@ -39,12 +39,18 @@ class _UserProfileState extends State<UserProfile> {
       "role": dropdownValue,
     };
 
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await user.reload();
+    }
+    String? userUID = user!.uid.toString();
+
     DatabaseReference usersRef = FirebaseDatabase.instance.ref().child("users");
-    usersRef.child(currentFirebaseUser!.uid).child("profile").set(userMap);
+
+    usersRef.child(userUID).child("profile").set(userMap);
 
     final ref = FirebaseDatabase.instance.ref();
-    String? user = currentFirebaseUser!.uid.toString();
-    final snapshot = await ref.child('users/$user/first name').get();
+    final snapshot = await ref.child('users/$userUID/first name').get();
     if (snapshot.exists) {
       name = '${snapshot.value}';
     } else {
