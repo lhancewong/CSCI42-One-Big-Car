@@ -21,15 +21,18 @@ class _PassengerListState extends State<PassengerList> {
   @override
   void initState() {
     super.initState();
+
     getUserData();
   }
 
-  void getUserData() async {
+  Future<void> getUserData() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       await user.reload();
     }
-    userUID = user!.uid.toString();
+    setState(() {
+      userUID = user!.uid.toString();
+    });
   }
 
   @override
@@ -70,15 +73,6 @@ class _PassengerListState extends State<PassengerList> {
     final String dateInfo = formatter.format(DateTime.now());
 
     final bookingsRef = FirebaseDatabase.instance.ref('bookings');
-
-    String? getData() {
-      currentFirebaseUser = fAuth.currentUser;
-      if (currentFirebaseUser != null) {
-        return "Username can't be empty";
-      }
-
-      return null;
-    }
 
     Widget buildListItem(BuildContext context, DataSnapshot rideInfo) {
       String rideSourceName =
@@ -217,159 +211,162 @@ class _PassengerListState extends State<PassengerList> {
       String rideSourceName = rideInfo['source']['title'];
       String rideDestinationName = rideInfo['destination']['title'];
       String ridePassenger = rideInfo['passenger']['name'];
-      return ListTile(
-        title: ElevatedButton(
-          style: listButtonStyle,
-          onPressed: () async {
-            OverlayState? overlayState = Overlay.of(context);
-            late OverlayEntry overlayEntry;
-            overlayEntry = OverlayEntry(builder: ((context) {
-              return Stack(alignment: Alignment.center, children: <Widget>[
-                Container(
-                  width: screenWidth,
-                  height: screenHeight,
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                Container(
-                  width: screenWidth * 0.9,
-                  height: screenHeight * 0.6,
-                  decoration: BoxDecoration(
-                    color: obcGrey,
-                    borderRadius: BorderRadius.circular(50),
+      return RefreshIndicator(
+        onRefresh: getUserData,
+        child: ListTile(
+          title: ElevatedButton(
+            style: listButtonStyle,
+            onPressed: () async {
+              OverlayState? overlayState = Overlay.of(context);
+              late OverlayEntry overlayEntry;
+              overlayEntry = OverlayEntry(builder: ((context) {
+                return Stack(alignment: Alignment.center, children: <Widget>[
+                  Container(
+                    width: screenWidth,
+                    height: screenHeight,
+                    color: Colors.black.withOpacity(0.5),
                   ),
-                  child: Stack(children: <Widget>[
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Material(
-                        color: obcGrey,
-                        child: IconButton(
-                          onPressed: () async {
-                            overlayEntry.remove();
-                          },
-                          icon: const Icon(Icons.close),
-                          iconSize: 25,
-                        ),
-                      ),
+                  Container(
+                    width: screenWidth * 0.9,
+                    height: screenHeight * 0.6,
+                    decoration: BoxDecoration(
+                      color: obcGrey,
+                      borderRadius: BorderRadius.circular(50),
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          width: 90,
-                          height: screenHeight * 0.6,
-                          decoration: BoxDecoration(
-                            color: obcBlue,
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(25),
-                            ),
+                    child: Stack(children: <Widget>[
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Material(
+                          color: obcGrey,
+                          child: IconButton(
+                            onPressed: () async {
+                              overlayEntry.remove();
+                            },
+                            icon: const Icon(Icons.close),
+                            iconSize: 25,
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SizedBox(
-                              width: screenWidth * 0.55,
-                              child: RichText(
-                                text: TextSpan(
-                                    text: "Meeting point @\n",
-                                    style: overlaysmalltextStyle,
-                                    children: <InlineSpan>[
-                                      TextSpan(
-                                          text: rideSourceName,
-                                          style: overlaybigtextStyle)
-                                    ]),
-                                textAlign: TextAlign.left,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 90,
+                            height: screenHeight * 0.6,
+                            decoration: BoxDecoration(
+                              color: obcBlue,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(25),
                               ),
                             ),
-                            SizedBox(
-                              width: screenWidth * 0.55,
-                              child: RichText(
-                                text: TextSpan(
-                                    text: "Drop-off point\n",
-                                    style: overlaysmalltextStyle,
-                                    children: <InlineSpan>[
-                                      TextSpan(
-                                          text: rideDestinationName,
-                                          style: overlaybigtextStyle)
-                                    ]),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                            SizedBox(
-                              width: screenWidth * 0.55,
-                              child: RichText(
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              SizedBox(
+                                width: screenWidth * 0.55,
+                                child: RichText(
                                   text: TextSpan(
-                                      text: "Passenger:\n",
+                                      text: "Meeting point @\n",
                                       style: overlaysmalltextStyle,
                                       children: <InlineSpan>[
                                         TextSpan(
-                                            text: ridePassenger,
+                                            text: rideSourceName,
                                             style: overlaybigtextStyle)
                                       ]),
-                                  textAlign: TextAlign.left),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ]),
-                ),
-                Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        User? user = FirebaseAuth.instance.currentUser;
-                        if (user != null) {
-                          await user.reload();
-                        }
-                        String? userUID = user!.uid.toString();
-                        var finishedbool = {"finished": "true"};
-                        overlayEntry.remove();
-                        DatabaseReference passengerRef =
-                            FirebaseDatabase.instance.ref().child("bookings");
-                        passengerRef.child(rideHead).update(finishedbool);
-                      },
-                      style: confirmBookingButton,
-                      child: const Text("Arrived at destination",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 25,
-                              fontFamily: 'Nunito',
-                              color: Colors.white)),
-                    ),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              SizedBox(
+                                width: screenWidth * 0.55,
+                                child: RichText(
+                                  text: TextSpan(
+                                      text: "Drop-off point\n",
+                                      style: overlaysmalltextStyle,
+                                      children: <InlineSpan>[
+                                        TextSpan(
+                                            text: rideDestinationName,
+                                            style: overlaybigtextStyle)
+                                      ]),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              SizedBox(
+                                width: screenWidth * 0.55,
+                                child: RichText(
+                                    text: TextSpan(
+                                        text: "Passenger:\n",
+                                        style: overlaysmalltextStyle,
+                                        children: <InlineSpan>[
+                                          TextSpan(
+                                              text: ridePassenger,
+                                              style: overlaybigtextStyle)
+                                        ]),
+                                    textAlign: TextAlign.left),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ]),
                   ),
-                )
-              ]);
-            }));
+                  Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          User? user = FirebaseAuth.instance.currentUser;
+                          if (user != null) {
+                            await user.reload();
+                          }
+                          String? userUID = user!.uid.toString();
+                          var finishedbool = {"finished": "true"};
+                          overlayEntry.remove();
+                          DatabaseReference passengerRef =
+                              FirebaseDatabase.instance.ref().child("bookings");
+                          passengerRef.child(userUID).update(finishedbool);
+                        },
+                        style: confirmBookingButton,
+                        child: const Text("Arrived at destination",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 25,
+                                fontFamily: 'Nunito',
+                                color: Colors.white)),
+                      ),
+                    ),
+                  )
+                ]);
+              }));
 
-            overlayState?.insert(overlayEntry);
-            /* await Future.delayed(Duration(seconds: 3));
-            overlayEntry.remove(); */
-          },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('time'),
-              Text(
-                "FROM: $rideSourceName",
-                style: const TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontFamily: 'Nunito',
-                  color: Colors.black,
+              overlayState?.insert(overlayEntry);
+              /* await Future.delayed(Duration(seconds: 3));
+              overlayEntry.remove(); */
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('time'),
+                Text(
+                  "FROM: $rideSourceName",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontFamily: 'Nunito',
+                    color: Colors.black,
+                  ),
                 ),
-              ),
-              Text(
-                "TO: $rideDestinationName",
-                style: const TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontFamily: 'Nunito',
-                  color: Colors.black,
+                Text(
+                  "TO: $rideDestinationName",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontFamily: 'Nunito',
+                    color: Colors.black,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -424,6 +421,9 @@ class _PassengerListState extends State<PassengerList> {
                     for (var i = 0; i < list.length; i++) {
                       if (list[i]['head']['id'] == userUID) {
                         filteredList.add(list[i]);
+                        while (filteredList.isEmpty) {
+                          filteredList.add(list[i]);
+                        }
                       }
                     }
 

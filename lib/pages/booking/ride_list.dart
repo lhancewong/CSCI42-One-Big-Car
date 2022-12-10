@@ -310,14 +310,19 @@ class _RideListState extends State<RideList> {
                           await user.reload();
                         }
                         String? passengerUID = user!.uid.toString();
+                        final snapshot = await FirebaseDatabase.instance
+                            .ref()
+                            .child('users/$passengerUID/first name')
+                            .get();
                         var passengerID = {
                           "passenger": passengerUID,
+                          "name": snapshot.value.toString(),
                         };
                         overlayEntry.remove();
                         DatabaseReference passengerRef =
                             FirebaseDatabase.instance.ref().child("bookings");
                         passengerRef
-                            .child(rideHead)
+                            .child(passengerUID)
                             .child("passenger")
                             .update(passengerID);
                       },
