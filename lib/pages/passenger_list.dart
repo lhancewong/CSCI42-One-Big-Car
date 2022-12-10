@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -201,9 +202,6 @@ class _PassengerListState extends State<PassengerList> {
     }
 
     Widget buildListItemv2(BuildContext context, rideInfo) {
-      var passengerID = {
-        "passenger": currentFirebaseUser!.uid,
-      };
       String rideHead = rideInfo['head']['name'];
       String rideSourceName = rideInfo['source']['title'];
       String rideDestinationName = rideInfo['destination']['title'];
@@ -224,7 +222,10 @@ class _PassengerListState extends State<PassengerList> {
                 Container(
                   width: screenWidth * 0.9,
                   height: screenHeight * 0.6,
-                  color: obcGrey,
+                  decoration: BoxDecoration(
+                    color: obcGrey,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
                   child: Stack(children: <Widget>[
                     Align(
                       alignment: Alignment.topRight,
@@ -244,44 +245,59 @@ class _PassengerListState extends State<PassengerList> {
                         Container(
                           width: 90,
                           height: screenHeight * 0.6,
-                          color: obcBlue,
+                          decoration: BoxDecoration(
+                            color: obcBlue,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(25),
+                            ),
+                          ),
                         ),
+                        const SizedBox(width: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            RichText(
-                              text: TextSpan(
-                                  text: "Meeting point @\n",
-                                  style: overlaysmalltextStyle,
-                                  children: <InlineSpan>[
-                                    TextSpan(
-                                        text: rideSourceName,
-                                        style: overlaybigtextStyle)
-                                  ]),
-                              textAlign: TextAlign.left,
-                            ),
-                            RichText(
-                              text: TextSpan(
-                                  text: "Drop-off point\n",
-                                  style: overlaysmalltextStyle,
-                                  children: <InlineSpan>[
-                                    TextSpan(
-                                        text: rideDestinationName,
-                                        style: overlaybigtextStyle)
-                                  ]),
-                              textAlign: TextAlign.left,
-                            ),
-                            RichText(
+                            SizedBox(
+                              width: screenWidth * 0.55,
+                              child: RichText(
                                 text: TextSpan(
-                                    text: "Passenger:\n",
+                                    text: "Meeting point @\n",
                                     style: overlaysmalltextStyle,
                                     children: <InlineSpan>[
                                       TextSpan(
-                                          text: ridePassenger,
+                                          text: rideSourceName,
                                           style: overlaybigtextStyle)
                                     ]),
-                                textAlign: TextAlign.left)
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            SizedBox(
+                              width: screenWidth * 0.55,
+                              child: RichText(
+                                text: TextSpan(
+                                    text: "Drop-off point\n",
+                                    style: overlaysmalltextStyle,
+                                    children: <InlineSpan>[
+                                      TextSpan(
+                                          text: rideDestinationName,
+                                          style: overlaybigtextStyle)
+                                    ]),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            SizedBox(
+                              width: screenWidth * 0.55,
+                              child: RichText(
+                                  text: TextSpan(
+                                      text: "Passenger:\n",
+                                      style: overlaysmalltextStyle,
+                                      children: <InlineSpan>[
+                                        TextSpan(
+                                            text: ridePassenger,
+                                            style: overlaybigtextStyle)
+                                      ]),
+                                  textAlign: TextAlign.left),
+                            )
                           ],
                         ),
                       ],
@@ -293,6 +309,12 @@ class _PassengerListState extends State<PassengerList> {
                     alignment: Alignment.bottomCenter,
                     child: ElevatedButton(
                       onPressed: () async {
+                        User? user = FirebaseAuth.instance.currentUser;
+                        if (user != null) {
+                          await user.reload();
+                        }
+                        String? userUID = user!.uid.toString();
+                        var passengerID = {"passenger": userUID};
                         overlayEntry.remove();
                         DatabaseReference passengerRef =
                             FirebaseDatabase.instance.ref().child("bookings");
@@ -322,7 +344,7 @@ class _PassengerListState extends State<PassengerList> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('time'),
+              const Text('time'),
               Text(
                 "FROM: $rideSourceName",
                 style: const TextStyle(

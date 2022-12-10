@@ -59,15 +59,6 @@ class _RideHistoryState extends State<RideHistory> {
 
     final bookingsRef = FirebaseDatabase.instance.ref('bookings');
 
-    String? getData() {
-      currentFirebaseUser = fAuth.currentUser;
-      if (currentFirebaseUser != null) {
-        return "Username can't be empty";
-      }
-
-      return null;
-    }
-
     Widget buildListItem(BuildContext context, DataSnapshot rideInfo) {
       String rideSourceName =
           rideInfo.child("source").child("title").value.toString();
@@ -82,7 +73,7 @@ class _RideHistoryState extends State<RideHistory> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('time'),
+              const Text('time'),
               Text(
                 "FROM: $rideSourceName",
                 style: const TextStyle(
@@ -106,13 +97,8 @@ class _RideHistoryState extends State<RideHistory> {
     }
 
     Widget buildListItemv2(BuildContext context, rideInfo) {
-      var passengerID = {
-        "passenger": currentFirebaseUser!.uid,
-      };
-      String rideHead = rideInfo['head']['head'];
       String rideSourceName = rideInfo['source']['title'];
       String rideDestinationName = rideInfo['destination']['title'];
-      String ridePassenger = rideInfo['passenger']['passenger'];
       return ListTile(
         title: ElevatedButton(
           style: listButtonStyle,
@@ -169,21 +155,6 @@ class _RideHistoryState extends State<RideHistory> {
                   textAlign: TextAlign.center,
                 )),
           ),
-          /* Container(
-              margin: EdgeInsets.only(top: screenHeight * 0.23),
-              child: FirebaseAnimatedList(
-                query: bookingsRef,
-                itemBuilder: (context, snapshot, animation, index) {
-                  if (!snapshot.exists) return const Text('Loading...');
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      itemExtent: 110,
-                      itemCount: 1,
-                      itemBuilder: (context, index) {
-                        return buildListItem(context, snapshot);
-                      });
-                },
-              )), */
           Container(
             margin: EdgeInsets.only(top: screenHeight * 0.23),
             child: StreamBuilder(
@@ -204,7 +175,6 @@ class _RideHistoryState extends State<RideHistory> {
                           return buildListItemv2(context, list[index]);
                         });
                   }
-                  /* buildListItem(context, list[index])); */
                 }),
           )
         ]));

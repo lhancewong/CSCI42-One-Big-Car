@@ -396,21 +396,6 @@ class _RideListState extends State<RideList> {
                   textAlign: TextAlign.center,
                 )),
           ),
-          /* Container(
-              margin: EdgeInsets.only(top: screenHeight * 0.23),
-              child: FirebaseAnimatedList(
-                query: bookingsRef,
-                itemBuilder: (context, snapshot, animation, index) {
-                  if (!snapshot.exists) return const Text('Loading...');
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      itemExtent: 110,
-                      itemCount: 1,
-                      itemBuilder: (context, index) {
-                        return buildListItem(context, snapshot);
-                      });
-                },
-              )), */
           Container(
             margin: EdgeInsets.only(top: screenHeight * 0.23),
             child: StreamBuilder(
