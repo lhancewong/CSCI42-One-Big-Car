@@ -16,9 +16,20 @@ class PassengerList extends StatefulWidget {
 }
 
 class _PassengerListState extends State<PassengerList> {
+  String userUID = "";
+
   @override
   void initState() {
     super.initState();
+    getUserData();
+  }
+
+  void getUserData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await user.reload();
+    }
+    userUID = user!.uid.toString();
   }
 
   @override
@@ -395,21 +406,6 @@ class _PassengerListState extends State<PassengerList> {
                   textAlign: TextAlign.center,
                 )),
           ),
-          /* Container(
-              margin: EdgeInsets.only(top: screenHeight * 0.23),
-              child: FirebaseAnimatedList(
-                query: bookingsRef,
-                itemBuilder: (context, snapshot, animation, index) {
-                  if (!snapshot.exists) return const Text('Loading...');
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      itemExtent: 110,
-                      itemCount: 1,
-                      itemBuilder: (context, index) {
-                        return buildListItem(context, snapshot);
-                      });
-                },
-              )), */
           Container(
             margin: EdgeInsets.only(top: screenHeight * 0.23),
             child: StreamBuilder(
@@ -421,14 +417,22 @@ class _PassengerListState extends State<PassengerList> {
                     Map<dynamic, dynamic> map =
                         snapshot.data!.snapshot.value as Map<dynamic, dynamic>;
                     List<dynamic> list = [];
+                    List<dynamic> filteredList = [];
                     list.clear();
+                    filteredList.clear();
                     list = map.values.toList();
-                    print(list[1]['destination']['title']);
+                    for (var i = 0; i < list.length; i++) {
+                      if (list[i]['head']['id'] == userUID) {
+                        filteredList.add(list[i]);
+                      }
+                    }
+
                     return ListView.builder(
                         itemExtent: 110,
-                        itemCount: snapshot.data!.snapshot.children.length,
+                        itemCount: filteredList.length,
                         itemBuilder: (context, index) {
-                          return buildListItemv2(context, list[index]);
+                          print(filteredList[index]);
+                          return buildListItemv2(context, filteredList[index]);
                         });
                   }
                   /* buildListItem(context, list[index])); */
