@@ -314,14 +314,11 @@ class _PassengerListState extends State<PassengerList> {
                           await user.reload();
                         }
                         String? userUID = user!.uid.toString();
-                        var passengerID = {"passenger": userUID};
+                        var finishedbool = {"finished": "true"};
                         overlayEntry.remove();
                         DatabaseReference passengerRef =
                             FirebaseDatabase.instance.ref().child("bookings");
-                        passengerRef
-                            .child(rideHead)
-                            .child("passenger")
-                            .update(passengerID);
+                        passengerRef.child(rideHead).update(finishedbool);
                       },
                       style: confirmBookingButton,
                       child: const Text("Arrived at destination",
