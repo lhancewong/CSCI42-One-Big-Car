@@ -480,6 +480,10 @@ class _SingleBookingState extends State<SingleBooking> {
                       "longitude": destinationData[2],
                     };
 
+                    Map<String, bool> rideBoolean = {
+                      "finished": false,
+                    };
+
                     final ref = FirebaseDatabase.instance.ref();
                     User? user = FirebaseAuth.instance.currentUser;
                     if (user != null) {
@@ -498,6 +502,10 @@ class _SingleBookingState extends State<SingleBooking> {
                         "notes": TextController3.text,
                       });
                     }
+
+                    DatabaseReference booleanRef =
+                        FirebaseDatabase.instance.ref().child("bookings");
+                    booleanRef.child(userUID).update(rideBoolean);
 
                     DatabaseReference userBookingRef =
                         FirebaseDatabase.instance.ref().child("bookings");
